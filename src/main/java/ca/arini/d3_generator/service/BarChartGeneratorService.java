@@ -41,7 +41,7 @@ public class BarChartGeneratorService {
             @QueryParam("measure-column") String measureColumn) {
 
         return Response.status(Status.ACCEPTED)
-                .entity("TODO implement bar chart generator").build();
+                .entity("console.log('test successful');").build();
     }
 
 }

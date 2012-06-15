@@ -1,0 +1,27 @@
+<html>
+<head>
+    <title>d3-generator</title>
+
+    <script src="http://mbostock.github.com/d3/d3.js?2.9.3"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+
+    <script>
+        function callCodeGenerator() {
+            d3.text('/generator/barchart', function(generatedCode) {
+                $('#response').html(generatedCode);
+                eval(generatedCode);
+            });
+        }
+    </script>
+</head>
+<body>
+<h1>d3-generator.com/barchart</h1>
+<form>
+  Category column: <input type="text" value="category" name="categoryColumn" /><br/>
+  Value column: <input type="text" value="measure" name="measureColumn" /><br/>
+  <button type="button" onclick="callCodeGenerator()">Submit</button>
+</form>
+<pre id="response"></pre>
+<div id="chart"></div>
+</body>
+</html>
