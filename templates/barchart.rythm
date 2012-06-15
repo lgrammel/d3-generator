@@ -1,0 +1,63 @@
+@args String who; 
+console.log('@who');
+
+maxBarLabelWidth = 100;
+
+chart = d3.select('#chart').append("svg")
+  .attr('width', 420 + maxBarLabelWidth)
+  .attr('height', height)
+
+// bar labels
+chart.selectAll('.label').data(data).enter().append('text')
+  .attr('class', 'label')
+  .attr('y', y)
+  .attr('stroke', 'none')
+  .attr('fill', 'black')
+  .attr("dy", '14px') // vertical alignment
+  .attr("dx", -3) // right padding
+  .attr('x', maxBarLabelWidth)
+  .attr('text-anchor', 'end')
+  .attr('font-size', '12px')
+  .attr('font-family', 'Arial, sans-serif')
+  .attr('font-weight', 'normal')
+  .text(barLabelOf)
+
+// vertical grid lines
+chart.selectAll("line").data(x.ticks(10)).enter().append("line")
+  .attr("x1", x)
+  .attr("x2", x)
+  .attr("y1", 0)
+  .attr("y2", height)
+  .style("stroke", "#ccc")
+
+// bars
+chart.selectAll("rect").data(data).enter().append("rect")
+  .attr('x', maxBarLabelWidth)
+  .attr('y', y)
+  .attr('height', barHeight)
+  .attr('width', (d) -> width(barLengthOf(d)))
+  .attr('stroke', 'white')
+  .attr('fill', 'steelblue')
+
+// numeric value labels
+chart.selectAll('.valueLabel').data(data).enter().append('text')
+  .attr('class', 'valueLabel')
+  .attr('x', (d) -> x(barLengthOf(d)))
+  .attr('y', y)
+  .attr('stroke', 'none')
+  .attr('fill', 'white')
+  .attr('text-anchor', 'end')
+  .attr("dy", '14px') // vertical alignment
+  .attr("dx", -3) // right padding
+  .attr('font-size', '12px')
+  .attr('font-family', 'Arial, sans-serif')
+  .attr('font-weight', 'normal')
+  .text((d, i) -> d3.round(barLengthOf(d), 2))
+
+// start line
+chart.append("line")
+  .attr('x1', maxBarLabelWidth)
+  .attr('x2', maxBarLabelWidth)
+  .attr("y1", 0)
+  .attr("y2", height)
+  .style("stroke", "#000");

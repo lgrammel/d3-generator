@@ -19,6 +19,10 @@
  *************************************************************************/
 package ca.arini.d3_generator.service;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
 import javax.inject.Singleton;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -26,6 +30,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
+
+import com.greenlaw110.rythm.Rythm;
 
 @Path("/generator/barchart")
 @Singleton
@@ -40,8 +46,16 @@ public class BarChartGeneratorService {
             @QueryParam("category-column") String categoryColumn,
             @QueryParam("measure-column") String measureColumn) {
 
-        return Response.status(Status.ACCEPTED)
-                .entity("console.log('test successful');").build();
+        Properties properties = new Properties();
+        properties.put("rythm.mode", "dev"); // TODO production mode
+        Rythm.init(properties);
+
+        Map<String, String> args = new HashMap<String, String>();
+        args.put("who", "Lars");
+
+        String x = Rythm.render("templates/barchart.rythm", args);
+
+        return Response.status(Status.ACCEPTED).entity(x).build();
     }
 
 }
