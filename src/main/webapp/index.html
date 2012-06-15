@@ -23,6 +23,18 @@
             width: 100%;
         }
 
+        #jsonEditor {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+
+        #sourceEditor {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -38,24 +50,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
     -->
-
-    <script>
-        function callCodeGenerator(categoryColumn, measureColumn) {
-            url = '/generator/barchart?categoryColumn=' + categoryColumn + '&measureColumn=' + measureColumn;
-            d3.text(url, function(generatedCode) {
-                $('#chart').empty();
-                $('#response').html(generatedCode);
-                eval(generatedCode);
-            });
-        }
-
-        function parseCsv(csv) {
-            // what about parsing errors?
-            data = d3.csv.parse(csv);
-
-            $('#parsedCsv').html(JSON.stringify(data, undefined, 2));
-        }
-    </script>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -74,16 +68,17 @@
 <div class="container-fluid">
     <div class="row-fluid">
         <div class="span6">
-            <h2>Enter CSV...</h2>
+            <h2>CSV</h2>
+            <p><a href="https://github.com/mbostock/d3/wiki/CSV">Learn more about d3 CSV parsing...</a></p>
             <form class="well">
                 <fieldset>
                     <textarea class="input-xlarge" id="inputCSV" rows="10" wrap='off'></textarea>
-                    <button type="button" onclick="parseCsv(document.getElementById('inputCSV').value)" class="btn btn-primary">Parse</button>
+                    <button type="button" onclick="parseCsv(document.getElementById('inputCSV').value)" class="btn btn-primary">Parse into JSON</button>
                 </fieldset>
             </form>
         </div>
         <div class="span6">
-            <h2>Generate Bar Chart...</h2>
+            <h2>Bar Chart Settings</h2>
             <form class="form-horizontal">
                 <fieldset>
                     <div class="control-group">
@@ -109,17 +104,19 @@
     </div>
     <div class="row-fluid">
         <div class="span6">
-            <h2>Parsed CSV</h2>
-            <p>Available as <code>data</code> in source code. <a href="https://github.com/mbostock/d3/wiki/CSV">Learn more about d3 CSV parsing...</a></p>
-            <pre id="parsedCsv"></pre>
+            <h2>JSON</h2>
+            <p>Available as <code>data</code> in source code.</p>
+            <div id="jsonEditor">[]</div>
         </div>
         <div class="span6">
             <h2>Source Code</h2>
-            <pre id="response"></pre>
+            <p>Chart automatically updates when you change the source.</p>
+            <div id="sourceEditor"></div>
         </div>
      </div>
     <div class="row-fluid">
         <div class="span12">
+            <h2>Chart</h2>
             <div id="chart"></div>
         </div>
     </div>
@@ -132,7 +129,50 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/d3/d3.v2.js"></script>
+<script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
+<script src="js/ace/mode-json.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+<script>
 
+    window.data = []
+
+    function callCodeGenerator(categoryColumn, measureColumn) {
+        url = '/generator/barchart?categoryColumn=' + categoryColumn + '&measureColumn=' + measureColumn;
+        d3.text(url, function(generatedCode) {
+            $('#chart').empty();
+            window.sourceEditor.getSession().setValue(generatedCode);
+            redrawChart();
+        });
+    }
+
+    function parseCsv(csv) {
+        // what about parsing errors?
+        window.data = d3.csv.parse(csv);
+        window.jsonEditor.getSession().setValue(JSON.stringify(window.data, undefined, 2));
+    }
+
+    function redrawChart() {
+        $('#chart').empty();
+
+        try {
+            var code = window.sourceEditor.getSession().getValue();
+            eval(code);
+        }
+        catch (error) {
+            console.log(error);
+        }
+        finally {}
+    }
+
+    var JsonMode = require("ace/mode/json").Mode;
+    window.jsonEditor = ace.edit("jsonEditor");
+    window.jsonEditor.getSession().setMode(new JsonMode());
+
+    var JavascriptMode = require("ace/mode/javascript").Mode;
+    window.sourceEditor = ace.edit("sourceEditor");
+    window.sourceEditor.getSession().setMode(new JsonMode());
+    window.sourceEditor.getSession().on('change', redrawChart);
+</script>
 </body>
 </html>
