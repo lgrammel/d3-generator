@@ -22,6 +22,7 @@
         #inputCSV {
             width: 100%;
         }
+
     </style>
     <link href="css/bootstrap-responsive.css" rel="stylesheet">
 
@@ -100,21 +101,19 @@
                 </fieldset>
             </form>
             <pre id="response"></pre>
+            <div id="chart"></div>
         </div>
         <div class="span6">
             <h2>Enter CSV...</h2>
             <form class="well">
                 <fieldset>
-                    <textarea class="input-xlarge" id="inputCSV" rows="10"></textarea>
+                    <textarea class="input-xlarge" id="inputCSV" rows="10" wrap='off'></textarea>
                     <button type="button" onclick="parseCsv(document.getElementById('inputCSV').value)" class="btn btn-primary">Parse</button>
                 </fieldset>
             </form>
             <h2>Parsed CSV</h2>
             <p>Available as <code>data</code> in source code.</p>
             <pre id="parsedCsv"></pre>
-        </div>
-        <div class="span6">
-            <div id="chart"></div>
         </div>
     </div>
     <footer>
