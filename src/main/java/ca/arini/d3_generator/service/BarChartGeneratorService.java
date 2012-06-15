@@ -17,35 +17,31 @@
  * from Arini Software Inc.
  *
  *************************************************************************/
-package ca.arini.d3_generator.launch;
+package ca.arini.d3_generator.service;
 
-import ca.arini.d3_generator.service.BarChartGeneratorService;
+import javax.inject.Singleton;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
-import com.sun.jersey.guice.JerseyServletModule;
-import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+@Path("/generator/barchart")
+@Singleton
+public class BarChartGeneratorService {
 
-public final class D3GeneratorConfiguration extends JerseyServletModule {
+    // JS Mime Type http://stackoverflow.com/questions/10047439/javascript-mime
+    public static final String TEXT_JAVASCRIPT = "text/javascript";
 
-    private int port;
+    @GET
+    @Produces(TEXT_JAVASCRIPT)
+    public Response recommendVisualizations(
+            @QueryParam("category-column") String categoryColumn,
+            @QueryParam("measure-column") String measureColumn) {
 
-    public D3GeneratorConfiguration(int port) {
-        assert port >= 1;
-
-        this.port = port;
-    }
-
-    private void configureRestServices() {
-        bind(BarChartGeneratorService.class);
-        serveRegex("^/generator/.*$").with(GuiceContainer.class);
-    }
-
-    @Override
-    protected void configureServlets() {
-        configureRestServices();
-    }
-
-    public int getPort() {
-        return port;
+        return Response.status(Status.ACCEPTED)
+                .entity("TODO implement bar chart generator").build();
     }
 
 }
