@@ -1,7 +1,18 @@
 @args String who; 
-console.log('@who');
 
+data = [ { 'a': 50, 'b': 'x' }, { 'a': 50, 'b': 'x' } ]
+
+barHeight = 20;
+height = data.length * barHeight;
 maxBarLabelWidth = 100;
+
+y = function (d, i) { return i * barHeight; };
+
+barLabelOf = function(d) { return d['b']; }
+barLengthOf = function(d) { return d['a']; }
+
+width = d3.scale.linear().domain([0, d3.max(data, barLengthOf)]).range([0, 420])
+x = d3.scale.linear().domain([0, d3.max(data, barLengthOf)]).range([maxBarLabelWidth, maxBarLabelWidth + 420])
 
 chart = d3.select('#chart').append("svg")
   .attr('width', 420 + maxBarLabelWidth)
@@ -35,14 +46,14 @@ chart.selectAll("rect").data(data).enter().append("rect")
   .attr('x', maxBarLabelWidth)
   .attr('y', y)
   .attr('height', barHeight)
-  .attr('width', (d) -> width(barLengthOf(d)))
+  .attr('width', function (d) { return width(barLengthOf(d)); } )
   .attr('stroke', 'white')
   .attr('fill', 'steelblue')
 
 // numeric value labels
 chart.selectAll('.valueLabel').data(data).enter().append('text')
   .attr('class', 'valueLabel')
-  .attr('x', (d) -> x(barLengthOf(d)))
+  .attr('x', function (d) { return x(barLengthOf(d)); } )
   .attr('y', y)
   .attr('stroke', 'none')
   .attr('fill', 'white')
@@ -52,7 +63,7 @@ chart.selectAll('.valueLabel').data(data).enter().append('text')
   .attr('font-size', '12px')
   .attr('font-family', 'Arial, sans-serif')
   .attr('font-weight', 'normal')
-  .text((d, i) -> d3.round(barLengthOf(d), 2))
+  .text(function (d, i) { return d3.round(barLengthOf(d), 2); })
 
 // start line
 chart.append("line")
