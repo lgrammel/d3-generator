@@ -9,6 +9,21 @@
 
 	<repositories>
 		<repository>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>warn</checksumPolicy>
+			</releases>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+				<checksumPolicy>fail</checksumPolicy>
+			</snapshots>
+			<id>project.local</id>
+			<name>project</name>
+			<url>file:${project.basedir}/repository</url>
+		</repository>
+		<repository>
 			<id>central</id>
 			<name>Maven Central</name>
 			<url>http://repo.maven.apache.org/maven2/</url>
@@ -25,7 +40,14 @@
 	</properties>
 
 	<dependencies>
-
+	
+		<!-- Templating Engine -->
+		<dependency>
+			<groupId>com.rythmengine</groupId>
+			<artifactId>rythm</artifactId>
+			<version>1.0.0-20120613</version>
+		</dependency>		
+ 
 		<!-- Testing -->
 		<dependency>
 			<groupId>junit</groupId>
