@@ -1,13 +1,11 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
 <head>
-    <title>d3-generator</title>
+    <title>d3.js chart generator</title>
 
     <meta charset="utf-8">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=9">
-
-    <link rel="stylesheet" href="barchart.css" />
 
     <link href="css/bootstrap.css" rel="stylesheet">
     <style type="text/css">
@@ -50,7 +48,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </a>
-            <a class="brand" href="#">d3-generator.com</a>
+            <a class="brand" href="#">d3.js chart generator</a>
             <div class="nav-collapse">
                 <ul class="nav">
                     <li class="active"><a href="#">Bar Chart</a></li>
@@ -61,14 +59,35 @@
 </div>
 
 <div class="container">
-    <form>
-      Category column:  <input type="text" value="category" name="categoryColumn" class="generator_param" /><br/>
-      Value column:     <input type="text" value="measure" name="measureColumn" class="generator_param" /><br/>
-      <button type="button" onclick="callCodeGenerator()">Submit</button>
-    </form>
-    <pre id="response"></pre>
-    <div id="chart"></div>
-
+    <div class="row">
+        <div class="span6">
+            <form class="form-horizontal">
+                <fieldset>
+                    <div class="control-group">
+                        <label class="control-label" for="inputCategoryColumn">Category column</label>
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" id="inputCategoryColumn">
+                            <p class="help-block">CSV Column with bar labels</p>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="inputMeasureColumn">Value column</label>
+                        <div class="controls">
+                            <input type="text" class="input-xlarge" id="inputMeasureColumn">
+                            <p class="help-block">CSV Column with bar lengths</p>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="button" onclick="callCodeGenerator()" class="btn btn-primary">Generate Chart</button>
+                    </div>
+                </fieldset>
+            </form>
+            <div id="chart"></div>
+        </div>
+        <div class="span6">
+            <pre id="response"></pre>
+        </div>
+    </div>
     <footer>
         <p>&copy; Lars Grammel 2012</p>
     </footer>
