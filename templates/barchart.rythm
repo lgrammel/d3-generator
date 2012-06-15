@@ -1,6 +1,5 @@
-@args String who; 
-
-data = [ { 'a': 50, 'b': 'x' }, { 'a': 50, 'b': 'x' } ]
+@args String measureColumn; 
+@args String categoryColumn;
 
 barHeight = 20;
 height = data.length * barHeight;
@@ -8,8 +7,8 @@ maxBarLabelWidth = 100;
 
 y = function (d, i) { return i * barHeight; };
 
-barLabelOf = function(d) { return d['b']; }
-barLengthOf = function(d) { return d['a']; }
+barLabelOf = function(d) { return d['@categoryColumn']; }
+barLengthOf = function(d) { return d['@measureColumn']; }
 
 width = d3.scale.linear().domain([0, d3.max(data, barLengthOf)]).range([0, 420])
 x = d3.scale.linear().domain([0, d3.max(data, barLengthOf)]).range([maxBarLabelWidth, maxBarLabelWidth + 420])
