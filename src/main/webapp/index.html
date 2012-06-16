@@ -170,6 +170,7 @@
     window.jsonEditor.getSession().setMode(new JsonMode());
     window.jsonEditor.setReadOnly(true);
     window.jsonEditor.setShowPrintMargin(false);
+    window.jsonEditor.getSession().on('change', redrawChart);
 
     var JavascriptMode = require("ace/mode/javascript").Mode;
     window.sourceEditor = ace.edit("sourceEditor");
