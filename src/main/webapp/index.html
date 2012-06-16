@@ -1,6 +1,21 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
 <head>
+    <script type="text/javascript">
+        var _kmq = _kmq || [];
+        var _kmk = _kmk || '75ff4d525fd41f590a436601755e518fd9120038';
+        function _kms(u){
+            setTimeout(function(){
+                var d = document, f = d.getElementsByTagName('script')[0],
+                        s = d.createElement('script');
+                s.type = 'text/javascript'; s.async = true; s.src = u;
+                f.parentNode.insertBefore(s, f);
+            }, 1);
+        }
+        _kms('//i.kissmetrics.com/i.js');
+        _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
+    </script>
+
     <title>d3.js chart generator</title>
 
     <meta charset="utf-8">
@@ -56,143 +71,7 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
     -->
-    <script type="text/javascript">
-        var _kmq = _kmq || [];
-        var _kmk = _kmk || '75ff4d525fd41f590a436601755e518fd9120038';
-        function _kms(u){
-            setTimeout(function(){
-                var d = document, f = d.getElementsByTagName('script')[0],
-                        s = d.createElement('script');
-                s.type = 'text/javascript'; s.async = true; s.src = u;
-                f.parentNode.insertBefore(s, f);
-            }, 1);
-        }
-        _kms('//i.kissmetrics.com/i.js');
-        _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
-    </script>
-    <script>
-        var BrowserDetect = {
-            init: function () {
-                this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
-                this.version = this.searchVersion(navigator.userAgent)
-                        || this.searchVersion(navigator.appVersion)
-                        || "an unknown version";
-                this.OS = this.searchString(this.dataOS) || "an unknown OS";
-            },
-            searchString: function (data) {
-                for (var i=0;i<data.length;i++)	{
-                    var dataString = data[i].string;
-                    var dataProp = data[i].prop;
-                    this.versionSearchString = data[i].versionSearch || data[i].identity;
-                    if (dataString) {
-                        if (dataString.indexOf(data[i].subString) != -1)
-                            return data[i].identity;
-                    }
-                    else if (dataProp)
-                        return data[i].identity;
-                }
-            },
-            searchVersion: function (dataString) {
-                var index = dataString.indexOf(this.versionSearchString);
-                if (index == -1) return;
-                return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
-            },
-            dataBrowser: [
-                {
-                    string: navigator.userAgent,
-                    subString: "Chrome",
-                    identity: "Chrome"
-                },
-                { 	string: navigator.userAgent,
-                    subString: "OmniWeb",
-                    versionSearch: "OmniWeb/",
-                    identity: "OmniWeb"
-                },
-                {
-                    string: navigator.vendor,
-                    subString: "Apple",
-                    identity: "Safari",
-                    versionSearch: "Version"
-                },
-                {
-                    prop: window.opera,
-                    identity: "Opera",
-                    versionSearch: "Version"
-                },
-                {
-                    string: navigator.vendor,
-                    subString: "iCab",
-                    identity: "iCab"
-                },
-                {
-                    string: navigator.vendor,
-                    subString: "KDE",
-                    identity: "Konqueror"
-                },
-                {
-                    string: navigator.userAgent,
-                    subString: "Firefox",
-                    identity: "Firefox"
-                },
-                {
-                    string: navigator.vendor,
-                    subString: "Camino",
-                    identity: "Camino"
-                },
-                {		// for newer Netscapes (6+)
-                    string: navigator.userAgent,
-                    subString: "Netscape",
-                    identity: "Netscape"
-                },
-                {
-                    string: navigator.userAgent,
-                    subString: "MSIE",
-                    identity: "Explorer",
-                    versionSearch: "MSIE"
-                },
-                {
-                    string: navigator.userAgent,
-                    subString: "Gecko",
-                    identity: "Mozilla",
-                    versionSearch: "rv"
-                },
-                { 		// for older Netscapes (4-)
-                    string: navigator.userAgent,
-                    subString: "Mozilla",
-                    identity: "Netscape",
-                    versionSearch: "Mozilla"
-                }
-            ],
-            dataOS : [
-                {
-                    string: navigator.platform,
-                    subString: "Win",
-                    identity: "Windows"
-                },
-                {
-                    string: navigator.platform,
-                    subString: "Mac",
-                    identity: "Mac"
-                },
-                {
-                    string: navigator.userAgent,
-                    subString: "iPhone",
-                    identity: "iPhone/iPod"
-                },
-                {
-                    string: navigator.platform,
-                    subString: "Linux",
-                    identity: "Linux"
-                }
-            ]
 
-        };
-        BrowserDetect.init();
-
-        _kmq.push(['set', {'Browser' : BrowserDetect.browser + " " + BrowserDetect.version }]);
-        _kmq.push(['set', {'OS' : BrowserDetect.OS }]);
-        _kmq.push(['set', {'Screen Resolution' : screen.width + " x " + screen.height }]);
-    </script>
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -270,6 +149,132 @@
 <!-- Javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<script>
+    _kmq.push(['record', 'Viewed Homepage']);
+</script>
+<script>
+    var BrowserDetect = {
+        init: function () {
+            this.browser = this.searchString(this.dataBrowser) || "An unknown browser";
+            this.version = this.searchVersion(navigator.userAgent)
+                    || this.searchVersion(navigator.appVersion)
+                    || "an unknown version";
+            this.OS = this.searchString(this.dataOS) || "an unknown OS";
+        },
+        searchString: function (data) {
+            for (var i=0;i<data.length;i++)	{
+                var dataString = data[i].string;
+                var dataProp = data[i].prop;
+                this.versionSearchString = data[i].versionSearch || data[i].identity;
+                if (dataString) {
+                    if (dataString.indexOf(data[i].subString) != -1)
+                        return data[i].identity;
+                }
+                else if (dataProp)
+                    return data[i].identity;
+            }
+        },
+        searchVersion: function (dataString) {
+            var index = dataString.indexOf(this.versionSearchString);
+            if (index == -1) return;
+            return parseFloat(dataString.substring(index+this.versionSearchString.length+1));
+        },
+        dataBrowser: [
+            {
+                string: navigator.userAgent,
+                subString: "Chrome",
+                identity: "Chrome"
+            },
+            { 	string: navigator.userAgent,
+                subString: "OmniWeb",
+                versionSearch: "OmniWeb/",
+                identity: "OmniWeb"
+            },
+            {
+                string: navigator.vendor,
+                subString: "Apple",
+                identity: "Safari",
+                versionSearch: "Version"
+            },
+            {
+                prop: window.opera,
+                identity: "Opera",
+                versionSearch: "Version"
+            },
+            {
+                string: navigator.vendor,
+                subString: "iCab",
+                identity: "iCab"
+            },
+            {
+                string: navigator.vendor,
+                subString: "KDE",
+                identity: "Konqueror"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "Firefox",
+                identity: "Firefox"
+            },
+            {
+                string: navigator.vendor,
+                subString: "Camino",
+                identity: "Camino"
+            },
+            {		// for newer Netscapes (6+)
+                string: navigator.userAgent,
+                subString: "Netscape",
+                identity: "Netscape"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "MSIE",
+                identity: "Explorer",
+                versionSearch: "MSIE"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "Gecko",
+                identity: "Mozilla",
+                versionSearch: "rv"
+            },
+            { 		// for older Netscapes (4-)
+                string: navigator.userAgent,
+                subString: "Mozilla",
+                identity: "Netscape",
+                versionSearch: "Mozilla"
+            }
+        ],
+        dataOS : [
+            {
+                string: navigator.platform,
+                subString: "Win",
+                identity: "Windows"
+            },
+            {
+                string: navigator.platform,
+                subString: "Mac",
+                identity: "Mac"
+            },
+            {
+                string: navigator.userAgent,
+                subString: "iPhone",
+                identity: "iPhone/iPod"
+            },
+            {
+                string: navigator.platform,
+                subString: "Linux",
+                identity: "Linux"
+            }
+        ]
+
+    };
+    BrowserDetect.init();
+
+    _kmq.push(['set', {'Browser' : BrowserDetect.browser + " " + BrowserDetect.version }]);
+    _kmq.push(['set', {'OS' : BrowserDetect.OS }]);
+    _kmq.push(['set', {'Screen Resolution' : screen.width + " x " + screen.height }]);
+</script>
 <script src="js/d3/d3.v2.js"></script>
 <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
