@@ -1,25 +1,24 @@
 @args String measureColumn; 
 @args String categoryColumn;
-
 // basic settings
 barHeight = 20;
 maxBarLabelWidth = 100;
 maxBarWidth = 420;
-
+@nocompact() {}
 // data accessor functions
 barLength = function(d) { return parseFloat(d['@measureColumn']); };
-
+@nocompact() {}
 // scales etc. 
 height = data.length * barHeight;
 width = d3.scale.linear().domain([0, d3.max(data, barLength)]).range([0, maxBarWidth]);
 y = function (d, i) { return i * barHeight; };
 x = d3.scale.linear().domain([0, d3.max(data, barLength)]).range([maxBarLabelWidth, maxBarLabelWidth + maxBarWidth]);
-
+@nocompact() {}
 // svg container element
 chart = d3.select('#chart').append("svg")
   .attr('width', maxBarWidth + maxBarLabelWidth)
   .attr('height', height);
-
+@nocompact() {}
 // bar labels
 chart.selectAll('.label').data(data).enter().append('text')
   .attr('class', 'label')
@@ -34,7 +33,7 @@ chart.selectAll('.label').data(data).enter().append('text')
   .attr('font-family', 'Arial, sans-serif')
   .attr('font-weight', 'normal')
   .text(function(d) { return d['@categoryColumn']; });
-
+@nocompact() {}
 // vertical grid lines
 chart.selectAll("line").data(x.ticks(10)).enter().append("line")
   .attr("x1", x)
@@ -42,7 +41,7 @@ chart.selectAll("line").data(x.ticks(10)).enter().append("line")
   .attr("y1", 0)
   .attr("y2", height)
   .style("stroke", "#ccc");
-
+@nocompact() {}
 // bars
 chart.selectAll("rect").data(data).enter().append("rect")
   .attr('x', maxBarLabelWidth)
@@ -51,7 +50,7 @@ chart.selectAll("rect").data(data).enter().append("rect")
   .attr('width', function (d) { return width(barLength(d)); } )
   .attr('stroke', 'white')
   .attr('fill', 'steelblue');
-
+@nocompact() {}
 // start line
 chart.append("line")
   .attr('x1', maxBarLabelWidth)
