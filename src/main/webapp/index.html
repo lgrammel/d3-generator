@@ -29,6 +29,12 @@
             height: 300px;
         }
 
+        #csvEditor {
+            position: relative;
+            width: 100%;
+            height: 300px;
+        }
+
         #sourceEditor {
             position: relative;
             width: 100%;
@@ -70,12 +76,7 @@
         <div class="span6">
             <h2>CSV</h2>
             <p><a href="https://github.com/mbostock/d3/wiki/CSV">Learn more about d3 CSV parsing...</a></p>
-            <form class="well">
-                <fieldset>
-                    <textarea class="input-xlarge" id="inputCSV" rows="10" wrap='off'></textarea>
-                    <button type="button" onclick="parseCsv(document.getElementById('inputCSV').value)" class="btn btn-primary">Parse into JSON</button>
-                </fieldset>
-            </form>
+            <div id="csvEditor"></div>
         </div>
         <div class="span6">
             <h2>Bar Chart Settings</h2>
@@ -104,8 +105,8 @@
     </div>
     <div class="row-fluid">
         <div class="span6">
-            <h2>JSON</h2>
-            <p>Available as <code>data</code> in the source code.</p>
+            <h2>Parsed Data</h2>
+            <p>Read-only, displayed as JSON. Available as <code>data</code> in the source code.</p>
             <div id="jsonEditor">[]</div>
         </div>
         <div class="span6">
@@ -147,7 +148,6 @@
     }
 
     function parseCsv(csv) {
-        // what about parsing errors?
         window.data = d3.csv.parse(csv);
         window.jsonEditor.getSession().setValue(JSON.stringify(window.data, undefined, 2));
     }
@@ -168,11 +168,18 @@
     var JsonMode = require("ace/mode/json").Mode;
     window.jsonEditor = ace.edit("jsonEditor");
     window.jsonEditor.getSession().setMode(new JsonMode());
+    window.jsonEditor.setReadOnly(true);
+    window.jsonEditor.setShowPrintMargin(false);
 
     var JavascriptMode = require("ace/mode/javascript").Mode;
     window.sourceEditor = ace.edit("sourceEditor");
-    window.sourceEditor.getSession().setMode(new JsonMode());
+    window.sourceEditor.getSession().setMode(new JavascriptMode());
+    window.sourceEditor.setShowPrintMargin(false);
     window.sourceEditor.getSession().on('change', redrawChart);
+
+    window.csvEditor = ace.edit("csvEditor");
+    window.csvEditor.setShowPrintMargin(false);
+    window.csvEditor.getSession().on('change', function() {  parseCsv(window.csvEditor.getSession().getValue()); });
 </script>
 </body>
 </html>
