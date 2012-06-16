@@ -1,21 +1,24 @@
 @args String measureColumn; 
 @args String categoryColumn;
 
+// basic settings
 barHeight = 20;
-height = data.length * barHeight;
 maxBarLabelWidth = 100;
+maxBarWidth = 420;
 
+// data accessor functions
+barLength = function(d) { return parseFloat(d['@measureColumn']); };
+
+// scales etc. 
+height = data.length * barHeight;
+width = d3.scale.linear().domain([0, d3.max(data, barLength)]).range([0, maxBarWidth]);
 y = function (d, i) { return i * barHeight; };
+x = d3.scale.linear().domain([0, d3.max(data, barLength)]).range([maxBarLabelWidth, maxBarLabelWidth + maxBarWidth]);
 
-barLabelOf = function(d) { return d['@categoryColumn']; }
-barLengthOf = function(d) { return d['@measureColumn']; }
-
-width = d3.scale.linear().domain([0, d3.max(data, barLengthOf)]).range([0, 420])
-x = d3.scale.linear().domain([0, d3.max(data, barLengthOf)]).range([maxBarLabelWidth, maxBarLabelWidth + 420])
-
+// svg container element
 chart = d3.select('#chart').append("svg")
-  .attr('width', 420 + maxBarLabelWidth)
-  .attr('height', height)
+  .attr('width', maxBarWidth + maxBarLabelWidth)
+  .attr('height', height);
 
 // bar labels
 chart.selectAll('.label').data(data).enter().append('text')
@@ -30,7 +33,7 @@ chart.selectAll('.label').data(data).enter().append('text')
   .attr('font-size', '12px')
   .attr('font-family', 'Arial, sans-serif')
   .attr('font-weight', 'normal')
-  .text(barLabelOf)
+  .text(function(d) { return d['@categoryColumn']; });
 
 // vertical grid lines
 chart.selectAll("line").data(x.ticks(10)).enter().append("line")
@@ -38,31 +41,16 @@ chart.selectAll("line").data(x.ticks(10)).enter().append("line")
   .attr("x2", x)
   .attr("y1", 0)
   .attr("y2", height)
-  .style("stroke", "#ccc")
+  .style("stroke", "#ccc");
 
 // bars
 chart.selectAll("rect").data(data).enter().append("rect")
   .attr('x', maxBarLabelWidth)
   .attr('y', y)
   .attr('height', barHeight)
-  .attr('width', function (d) { return width(barLengthOf(d)); } )
+  .attr('width', function (d) { return width(barLength(d)); } )
   .attr('stroke', 'white')
-  .attr('fill', 'steelblue')
-
-// numeric value labels
-chart.selectAll('.valueLabel').data(data).enter().append('text')
-  .attr('class', 'valueLabel')
-  .attr('x', function (d) { return x(barLengthOf(d)); } )
-  .attr('y', y)
-  .attr('stroke', 'none')
-  .attr('fill', 'white')
-  .attr('text-anchor', 'end')
-  .attr("dy", '14px') // vertical alignment
-  .attr("dx", -3) // right padding
-  .attr('font-size', '12px')
-  .attr('font-family', 'Arial, sans-serif')
-  .attr('font-weight', 'normal')
-  .text(function (d, i) { return d3.round(barLengthOf(d), 2); })
+  .attr('fill', 'steelblue');
 
 // start line
 chart.append("line")
