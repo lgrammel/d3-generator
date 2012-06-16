@@ -147,6 +147,7 @@
         d3.text(url, function(generatedCode) {
             $('#chart').empty();
             window.sourceEditor.getSession().setValue(generatedCode);
+            window.sourceEditor.resize();
             redrawChart();
         });
     }
@@ -184,7 +185,16 @@
 
     window.csvEditor = ace.edit("csvEditor");
     window.csvEditor.setShowPrintMargin(false);
-    window.csvEditor.getSession().on('change', function() {  parseCsv(window.csvEditor.getSession().getValue()); });
+    window.csvEditor.getSession().on('change', function() {
+        parseCsv(window.csvEditor.getSession().getValue());
+        window.csvEditor.resize();
+    });
+
+    window.onResize = function() {
+        window.csvEditor.resize();
+        window.jsonEditor.resize();
+        window.sourceEditor.resize();
+    };
 </script>
 </body>
 </html>
