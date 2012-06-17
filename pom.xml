@@ -45,7 +45,7 @@
 		<dependency>
 			<groupId>com.rythmengine</groupId>
 			<artifactId>rythm</artifactId>
-			<version>1.0.0-20120613</version>
+			<version>1.0.0-20120617</version>
 		</dependency>		
  
 		<!-- Testing -->
