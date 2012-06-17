@@ -1,5 +1,19 @@
 @args String measureColumn; 
 @args String categoryColumn;
+@args String order;
+@{
+  String dataVar = "data";
+  
+  if (null != order) {
+  	dataVar = "sortedData";
+  }
+}@
+@if (null != order) {
+// sorting
+sortedData = _.sortBy(data, function(d) {
+  return parseFloat(d['@order']);
+});
+}
 // basic settings
 barHeight = 20;
 maxBarLabelWidth = 100;
@@ -10,9 +24,9 @@ barLength = function(d) { return parseFloat(d['@measureColumn']); };
 @nocompact() {}
 // scales etc. 
 height = data.length * barHeight;
-width = d3.scale.linear().domain([0, d3.max(data, barLength)]).range([0, maxBarWidth]);
+width = d3.scale.linear().domain([0, d3.max(@dataVar, barLength)]).range([0, maxBarWidth]);
 y = function (d, i) { return i * barHeight; };
-x = d3.scale.linear().domain([0, d3.max(data, barLength)]).range([maxBarLabelWidth, maxBarLabelWidth + maxBarWidth]);
+x = d3.scale.linear().domain([0, d3.max(@dataVar, barLength)]).range([maxBarLabelWidth, maxBarLabelWidth + maxBarWidth]);
 @nocompact() {}
 // svg container element
 chart = d3.select('#chart').append("svg")
@@ -20,7 +34,7 @@ chart = d3.select('#chart').append("svg")
   .attr('height', height);
 @nocompact() {}
 // bar labels
-chart.selectAll('.label').data(data).enter().append('text')
+chart.selectAll('.label').data(@dataVar).enter().append('text')
   .attr('class', 'label')
   .attr('y', y)
   .attr('stroke', 'none')
@@ -43,7 +57,7 @@ chart.selectAll("line").data(x.ticks(10)).enter().append("line")
   .style("stroke", "#ccc");
 @nocompact() {}
 // bars
-chart.selectAll("rect").data(data).enter().append("rect")
+chart.selectAll("rect").data(@dataVar).enter().append("rect")
   .attr('x', maxBarLabelWidth)
   .attr('y', y)
   .attr('height', barHeight)

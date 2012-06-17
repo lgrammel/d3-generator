@@ -44,19 +44,21 @@ public class BarChartGeneratorService {
     @Produces(TEXT_JAVASCRIPT)
     public Response recommendVisualizations(
             @QueryParam("categoryColumn") String categoryColumn,
-            @QueryParam("measureColumn") String measureColumn) {
+            @QueryParam("measureColumn") String measureColumn,
+            @QueryParam("order") String order) {
 
         Properties properties = new Properties();
         properties.put("rythm.mode", "dev"); // TODO production mode
+        // properties.put("rythm.compactOutput", false);
         Rythm.init(properties);
 
         Map<String, String> args = new HashMap<String, String>();
         args.put("categoryColumn", categoryColumn);
         args.put("measureColumn", measureColumn);
+        args.put("order", null);
 
-        String x = Rythm.render("templates/barchart.rythm", args);
+        String generatedCode = Rythm.render("templates/barchart.rythm", args);
 
-        return Response.status(Status.ACCEPTED).entity(x).build();
+        return Response.status(Status.ACCEPTED).entity(generatedCode).build();
     }
-
 }
