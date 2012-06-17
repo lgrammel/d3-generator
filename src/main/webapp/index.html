@@ -186,18 +186,39 @@
         updateChartGeneratorState();
     }
 
+    function isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
+
     function updateChartGeneratorState() {
         if (window.data !== undefined && window.data.length > 0) {
-            var allColumnOptions = _.reduce(window.data[0], function(memo, d, context) {
-                return memo + '<option value="' + context + '">' + context + '</option>';
-            }, '')
+            var columns = _.map(window.data[0], function(value, key) {
+                return [value, key];
+            });
+
+            var optionAssembler = function(memo, column) {
+                return memo + '<option value="' + column[1] + '">' + column[1] + '</option>';
+            };
+
+            var numericColumns = _.filter(columns, function(d) {
+                return isNumber(d[0]);
+            });
+
+            var allColumnOptions = _.reduce(columns, optionAssembler, '');
+            var numericColumnOptions = _.reduce(numericColumns, optionAssembler, '');
 
             $('#inputCategoryColumn').html(allColumnOptions);
-            $('#inputMeasureColumn').html(allColumnOptions);
+            $('#inputMeasureColumn').html(numericColumnOptions);
 
             $('#inputCategoryColumn').attr('disabled', false);
-            $('#inputMeasureColumn').attr('disabled', false);
-            $('#buttonGenerateCode').removeClass('disabled');
+
+            if (numericColumns.length > 0) {
+                $('#inputMeasureColumn').attr('disabled', false);
+                $('#buttonGenerateCode').removeClass('disabled');
+            } else {
+                $('#inputMeasureColumn').attr('disabled', true);
+                $('#buttonGenerateCode').addClass('disabled');
+            }
         } else {
             $('#inputCategoryColumn').attr('disabled', true);
             $('#inputMeasureColumn').attr('disabled', true);
