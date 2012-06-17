@@ -97,6 +97,12 @@
         <div class="span6">
             <h2>Bar Chart Settings</h2>
             <p>Configure your chart.</p>
+            <div class="alert" id="warning-no-columns" style="display: none;">
+                <strong>No data available!</strong> Enter some CSV data first.
+            </div>
+            <div class="alert" id="warning-no-numerical-columns" style="display: none;">
+                <strong>No numerical columns available!</strong> Add a numerical column to the CSV file to render a bar chart.
+            </div>
             <form class="form-horizontal">
                 <fieldset>
                     <div class="control-group">
@@ -192,6 +198,8 @@
 
     function updateChartGeneratorState() {
         if (window.data !== undefined && window.data.length > 0) {
+            $('#warning-no-columns').hide();
+
             var columns = _.map(window.data[0], function(value, key) {
                 return [value, key];
             });
@@ -215,14 +223,22 @@
             if (numericColumns.length > 0) {
                 $('#inputMeasureColumn').attr('disabled', false);
                 $('#buttonGenerateCode').removeClass('disabled');
+                $('#warning-no-numerical-columns').hide();
             } else {
                 $('#inputMeasureColumn').attr('disabled', true);
                 $('#buttonGenerateCode').addClass('disabled');
+                $('#warning-no-numerical-columns').show();
             }
         } else {
+            $('#inputCategoryColumn').html('');
+            $('#inputMeasureColumn').html('');
+
             $('#inputCategoryColumn').attr('disabled', true);
             $('#inputMeasureColumn').attr('disabled', true);
             $('#buttonGenerateCode').addClass('disabled');
+
+            $('#warning-no-numerical-columns').hide();
+            $('#warning-no-columns').show();
         }
     }
 
