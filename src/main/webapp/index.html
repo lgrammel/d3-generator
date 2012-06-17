@@ -102,19 +102,19 @@
                     <div class="control-group">
                         <label class="control-label" for="inputCategoryColumn">Category column</label>
                         <div class="controls">
-                            <input type="text" class="input-xlarge" id="inputCategoryColumn">
-                            <p class="help-block">CSV Column with bar labels</p>
+                            <select id="inputCategoryColumn">
+                            </select>
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="inputMeasureColumn">Value column</label>
                         <div class="controls">
-                            <input type="text" class="input-xlarge" id="inputMeasureColumn">
-                            <p class="help-block">CSV Column with bar lengths</p>
+                            <select id="inputMeasureColumn">
+                            </select>
                         </div>
                     </div>
                     <div class="form-actions">
-                        <a onclick="callCodeGenerator(document.getElementById('inputCategoryColumn').value,document.getElementById('inputMeasureColumn').value)" class="btn btn-primary">
+                        <a onclick="callCodeGenerator(document.getElementById('inputCategoryColumn').value,document.getElementById('inputMeasureColumn').value)" class="btn btn-primary" id="buttonGenerateCode">
                             <i class="icon-picture icon-white"></i>
                             Generate Chart
                         </a>
@@ -168,6 +168,8 @@
 
     window.data = []
 
+    updateChartGeneratorState();
+
     function callCodeGenerator(categoryColumn, measureColumn) {
         url = '/generator/barchart?categoryColumn=' + categoryColumn + '&measureColumn=' + measureColumn;
         d3.text(url, function(generatedCode) {
@@ -181,6 +183,26 @@
     function parseCsv(csv) {
         window.data = d3.csv.parse(csv);
         window.jsonEditor.getSession().setValue(JSON.stringify(window.data, undefined, 2));
+        updateChartGeneratorState();
+    }
+
+    function updateChartGeneratorState() {
+        if (window.data !== undefined && window.data.length > 0) {
+            var allColumnOptions = _.reduce(window.data[0], function(memo, d, context) {
+                return memo + '<option value="' + context + '">' + context + '</option>';
+            }, '')
+
+            $('#inputCategoryColumn').html(allColumnOptions);
+            $('#inputMeasureColumn').html(allColumnOptions);
+
+            $('#inputCategoryColumn').attr('disabled', false);
+            $('#inputMeasureColumn').attr('disabled', false);
+            $('#buttonGenerateCode').removeClass('disabled');
+        } else {
+            $('#inputCategoryColumn').attr('disabled', true);
+            $('#inputMeasureColumn').attr('disabled', true);
+            $('#buttonGenerateCode').addClass('disabled');
+        }
     }
 
     function redrawChart() {
