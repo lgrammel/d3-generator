@@ -1,16 +1,31 @@
+@args String measureOperation;
 @args String measureColumn; 
 @args String categoryColumn;
 @args String order;
 @{
+  boolean isAggregated = "sum".equals(measureOperation);
+  boolean isOrdered = null != order;
+ 
   String dataVar = "data";
   
-  if (null != order) {
+  if (isAggregated) {
+  	dataVar = "aggregatedData";
+  }
+  
+  if (isOrdered) {
   	dataVar = "sortedData";
   }
 }@
-@if (null != order) {
+@if (isAggregated) {
+aggregatedData = _.map(_.groupBy(data, function(d) { return d['@categoryColumn']; }), function(group) {
+  return {
+    '@categoryColumn': group[0]['@categoryColumn'],
+    '@measureColumn': d3.sum(group, function(d) { return d['@measureColumn']; })
+  };
+});
+} @if (isOrdered) {
 // sorting
-sortedData = _.sortBy(data, function(d) {
+sortedData = _.sortBy(@if (isAggregated) { aggregatedData } else { data }, function(d) {
   return parseFloat(d['@order']);
 });
 }
@@ -23,7 +38,7 @@ maxBarWidth = 420;
 barLength = function(d) { return parseFloat(d['@measureColumn']); };
 @nocompact() {}
 // scales etc. 
-height = data.length * barHeight;
+height = @(dataVar).length * barHeight;
 width = d3.scale.linear().domain([0, d3.max(@dataVar, barLength)]).range([0, maxBarWidth]);
 y = function (d, i) { return i * barHeight; };
 x = d3.scale.linear().domain([0, d3.max(@dataVar, barLength)]).range([maxBarLabelWidth, maxBarLabelWidth + maxBarWidth]);

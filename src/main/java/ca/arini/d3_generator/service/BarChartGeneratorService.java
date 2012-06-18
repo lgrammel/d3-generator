@@ -44,8 +44,11 @@ public class BarChartGeneratorService {
     @Produces(TEXT_JAVASCRIPT)
     public Response recommendVisualizations(
             @QueryParam("categoryColumn") String categoryColumn,
+            @QueryParam("measureOperation") String measureOperation,
             @QueryParam("measureColumn") String measureColumn,
             @QueryParam("orderColumn") String orderColumn) {
+
+        // TODO Enums & value checking
 
         Properties properties = new Properties();
         properties.put("rythm.mode", "dev"); // TODO production mode
@@ -54,6 +57,7 @@ public class BarChartGeneratorService {
 
         Map<String, String> args = new HashMap<String, String>();
         args.put("categoryColumn", categoryColumn);
+        args.put("measureOperation", measureOperation);
         args.put("measureColumn", measureColumn);
         args.put("order", orderColumn);
 

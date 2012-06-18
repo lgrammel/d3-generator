@@ -95,28 +95,32 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
             <form class="form-horizontal">
                 <fieldset>
                     <div class="control-group">
-                        <label class="control-label" for="inputCategoryColumn">Bar label is</label>
+                        <label class="control-label" for="inputCategoryColumn">Bar label/grouping</label>
                         <div class="controls">
                             <select id="inputCategoryColumn">
                             </select>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="inputMeasureColumn">Bar length is</label>
+                        <label class="control-label" for="inputMeasureColumn">Bar length</label>
                         <div class="controls">
+                            <select id="measureOperation">
+                                <option value='all'>all values</option>
+                                <option value='sum'>sum</option>
+                            </select>
                             <select id="inputMeasureColumn">
                             </select>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="orderColumn">Order by</label>
+                        <label class="control-label" for="orderColumn">Order</label>
                         <div class="controls">
                             <select id="orderColumn">
                             </select>
                         </div>
                     </div>
                     <div class="form-actions">
-                        <a onclick="callCodeGenerator(document.getElementById('inputCategoryColumn').value,document.getElementById('inputMeasureColumn').value,document.getElementById('orderColumn').value)" class="btn btn-primary" id="buttonGenerateCode">
+                        <a onclick="generateChartButtonClicked()" class="btn btn-primary" id="buttonGenerateCode">
                             <i class="icon-picture icon-white"></i>
                             Generate Chart
                         </a>
@@ -163,20 +167,27 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
 
     updateChartGeneratorState();
 
-    function callCodeGenerator(categoryColumn, measureColumn, orderColumn) {
-        if ("" === orderColumn || undefined === orderColumn) {
-            orderColumn = undefined;
-            hasOrder = false;
-        } else {
-            hasOrder = true;
-        }
+    function generateChartButtonClicked() {
+        callCodeGenerator(
+            document.getElementById('inputCategoryColumn').value,
+            document.getElementById('inputMeasureColumn').value,
+            document.getElementById('orderColumn').value,
+            document.getElementById('measureOperation').value
+        );
+    }
 
+    function callCodeGenerator(categoryColumn, measureColumn, orderColumn, measureOperation) {
+        hasOrder = !("" === orderColumn || undefined === orderColumn);
 
         mixpanel.track("generate_chart", {
-            'order': hasOrder
+            'order': hasOrder,
+            'measureOperation': measureOperation
         });
 
-        url = '/generator/barchart?categoryColumn=' + categoryColumn + '&measureColumn=' + measureColumn;
+        url = '/generator/barchart'
+                + '?categoryColumn=' + categoryColumn
+                + '&measureColumn=' + measureColumn
+                + '&measureOperation=' + measureOperation;
 
         if (hasOrder) {
             url += '&orderColumn=' + orderColumn;
@@ -227,11 +238,13 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
 
             if (numericColumns.length > 0) {
                 $('#inputMeasureColumn').attr('disabled', false);
+                $('#measureOperation').attr('disabled', false);
                 $('#orderColumn').attr('disabled', false);
                 $('#buttonGenerateCode').removeClass('disabled');
                 $('#warning-no-numerical-columns').hide();
             } else {
                 $('#inputMeasureColumn').attr('disabled', true);
+                $('#measureOperation').attr('disabled', true);
                 $('#orderColumn').attr('disabled', true);
                 $('#buttonGenerateCode').addClass('disabled');
                 $('#warning-no-numerical-columns').show();
@@ -242,6 +255,7 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
 
             $('#inputCategoryColumn').attr('disabled', true);
             $('#inputMeasureColumn').attr('disabled', true);
+            $('#measureOperation').attr('disabled', true);
             $('#orderColumn').attr('disabled', true);
             $('#buttonGenerateCode').addClass('disabled');
 
@@ -258,6 +272,7 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
             eval(code);
         }
         catch (error) {
+            console.log("error drawing chart");
             console.log(error);
         }
         finally {}
