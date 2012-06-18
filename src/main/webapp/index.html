@@ -113,10 +113,24 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="orderColumn">Order</label>
+                        <label class="control-label">Order</label>
                         <div class="controls">
-                            <select id="orderColumn">
-                            </select>
+                            <label class="radio">
+                                <input id="orderOriginal" type="radio" name="order" value="ORIGINAL" checked="true"/>
+                                Original
+                            </label>
+                            <label class="radio">
+                                <input id="orderValueAscending" type="radio" name="order" value="VALUE_ASCENDING" />
+                                Bar length (ascending)
+                            </label>
+                            <label class="radio">
+                                <input id="orderValueDescending" type="radio" name="order" value="VALUE_DESCENDING" />
+                                Bar length (descending)
+                            </label>
+                            <label class="radio">
+                                <input id="orderLabelAlphabetical" type="radio" name="order" value="LABEL_ALPHABETICAL" />
+                                Bar label (alphabetical)
+                            </label>
                         </div>
                     </div>
                     <div class="form-actions">
@@ -169,10 +183,10 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
 
     function generateChartButtonClicked() {
         callCodeGenerator(
-            document.getElementById('inputCategoryColumn').value,
-            document.getElementById('inputMeasureColumn').value,
-            document.getElementById('orderColumn').value,
-            document.getElementById('measureOperation').value
+            $('#inputCategoryColumn').val(),
+            $('#inputMeasureColumn').val(),
+            $('input[name=order]:checked').val(),
+            $('#measureOperation').val()
         );
     }
 
@@ -239,13 +253,23 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
             if (numericColumns.length > 0) {
                 $('#inputMeasureColumn').attr('disabled', false);
                 $('#measureOperation').attr('disabled', false);
-                $('#orderColumn').attr('disabled', false);
+
+                $('#orderOriginal').attr('disabled', false);
+                $('#orderValueAscending').attr('disabled', false);
+                $('#orderValueDescending').attr('disabled', false);
+                $('#orderLabelAlphabetical').attr('disabled', false);
+
                 $('#buttonGenerateCode').removeClass('disabled');
                 $('#warning-no-numerical-columns').hide();
             } else {
                 $('#inputMeasureColumn').attr('disabled', true);
                 $('#measureOperation').attr('disabled', true);
-                $('#orderColumn').attr('disabled', true);
+
+                $('#orderOriginal').attr('disabled', true);
+                $('#orderValueAscending').attr('disabled', true);
+                $('#orderValueDescending').attr('disabled', true);
+                $('#orderLabelAlphabetical').attr('disabled', true);
+
                 $('#buttonGenerateCode').addClass('disabled');
                 $('#warning-no-numerical-columns').show();
             }
@@ -256,7 +280,12 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
             $('#inputCategoryColumn').attr('disabled', true);
             $('#inputMeasureColumn').attr('disabled', true);
             $('#measureOperation').attr('disabled', true);
-            $('#orderColumn').attr('disabled', true);
+
+            $('#orderOriginal').attr('disabled', true);
+            $('#orderValueAscending').attr('disabled', true);
+            $('#orderValueDescending').attr('disabled', true);
+            $('#orderLabelAlphabetical').attr('disabled', true);
+
             $('#buttonGenerateCode').addClass('disabled');
 
             $('#warning-no-numerical-columns').hide();

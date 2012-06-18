@@ -55,11 +55,11 @@ public class BarChartGeneratorService {
         // properties.put("rythm.compactOutput", false);
         Rythm.init(properties);
 
-        Map<String, String> args = new HashMap<String, String>();
+        Map<String, Object> args = new HashMap<String, Object>();
         args.put("categoryColumn", categoryColumn);
         args.put("measureOperation", measureOperation);
         args.put("measureColumn", measureColumn);
-        args.put("order", orderColumn);
+        args.put("order", BarChartOrder.valueOf(orderColumn));
 
         String generatedCode = Rythm.render("templates/barchart.rythm", args);
 

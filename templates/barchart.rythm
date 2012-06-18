@@ -1,10 +1,11 @@
+@import ca.arini.d3_generator.service.BarChartOrder
 @args String measureOperation;
 @args String measureColumn; 
 @args String categoryColumn;
-@args String order;
+@args BarChartOrder order;
 @{
   boolean isAggregated = "sum".equals(measureOperation);
-  boolean isOrdered = null != order;
+  boolean isOrdered = BarChartOrder.ORIGINAL != order;
  
   String dataVar = "data";
   
@@ -17,25 +18,34 @@
   }
 }@
 @if (isAggregated) {
+// data aggregation
 aggregatedData = _.map(_.groupBy(data, function(d) { return d['@categoryColumn']; }), function(group) {
   return {
-    '@categoryColumn': group[0]['@categoryColumn'],
-    '@measureColumn': d3.sum(group, function(d) { return d['@measureColumn']; })
+    'label': group[0]['@categoryColumn'],
+    'value': d3.sum(group, function(d) { return d['@measureColumn']; })
   };
 });
-} @if (isOrdered) {
+} 
+// data accessor functions @if (isAggregated) {
+barLabel = function(d) { return d.label; };
+barLength = function(d) { return d.value; };
+} else {
+barLabel = function(d) { return d['@categoryColumn']; };
+barLength = function(d) { return parseFloat(d['@measureColumn']); };
+} @if (BarChartOrder.VALUE_ASCENDING == order) {
 // sorting
-sortedData = _.sortBy(@if (isAggregated) { aggregatedData } else { data }, function(d) {
-  return parseFloat(d['@order']);
-});
+sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, barLength);
+} else if (BarChartOrder.VALUE_DESCENDING == order) {
+// sorting
+sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, function(d) { return -1 * barLength(d); });
+} else if (BarChartOrder.LABEL_ALPHABETICAL == order) {
+// sorting
+sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, barLabel);
 }
 // basic settings
 barHeight = 20;
 maxBarLabelWidth = 100;
 maxBarWidth = 420;
-@nocompact() {}
-// data accessor functions
-barLength = function(d) { return parseFloat(d['@measureColumn']); };
 @nocompact() {}
 // scales etc. 
 height = @(dataVar).length * barHeight;
@@ -61,7 +71,7 @@ chart.selectAll('.label').data(@dataVar).enter().append('text')
   .attr('font-size', '12px')
   .attr('font-family', 'Arial, sans-serif')
   .attr('font-weight', 'normal')
-  .text(function(d) { return d['@categoryColumn']; });
+  .text(barLabel);
 @nocompact() {}
 // vertical grid lines
 chart.selectAll("line").data(x.ticks(10)).enter().append("line")
