@@ -25,6 +25,7 @@ import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
+import org.eclipse.jetty.webapp.WebAppContext;
 
 import com.google.inject.Guice;
 import com.google.inject.servlet.GuiceFilter;
@@ -51,20 +52,22 @@ public class D3GeneratorLauncher {
         start(new D3GeneratorConfiguration(getPort()));
     }
 
-    public static void start(D3GeneratorConfiguration configuration) throws Exception {
+    public static void start(D3GeneratorConfiguration configuration)
+            throws Exception {
         Guice.createInjector(configuration);
         startServer(configuration.getPort());
     }
 
     private static void startServer(int port) throws Exception {
-        // http://wiki.eclipse.org/Jetty/Howto/Deal_with_Locked_Windows_Files
-        // http://stackoverflow.com/questions/184312/how-to-make-jetty-dynamically-load-static-pages
-        ServletContextHandler contextHandler = new ServletContextHandler();
+        // WebAppContext required for JSP
+        ServletContextHandler contextHandler = new WebAppContext();
         contextHandler.setSessionHandler(new SessionHandler(
                 new HashSessionManager()));
         contextHandler.setContextPath("/");
         contextHandler.setResourceBase(WEB_APP_DIRECTORY);
 
+        // http://wiki.eclipse.org/Jetty/Howto/Deal_with_Locked_Windows_Files
+        // http://stackoverflow.com/questions/184312/how-to-make-jetty-dynamically-load-static-pages
         ServletHolder holder = new ServletHolder(new DefaultServlet());
         holder.setInitParameter("useFileMappedBuffer", "false");
         holder.setInitOrder(0);
