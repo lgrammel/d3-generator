@@ -19,6 +19,10 @@
  *************************************************************************/
 package ca.arini.d3_generator.launch;
 
+import java.io.FileReader;
+import java.io.IOException;
+
+import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
@@ -32,7 +36,7 @@ import com.google.inject.servlet.GuiceFilter;
 
 public class D3GeneratorLauncher {
 
-    private static final int DEFAULT_PORT = 8080;
+    private static final int DEVELOPMENT_PORT = 8080;
 
     private static final String WEB_APP_DIRECTORY = "src/main/webapp/";
 
@@ -42,14 +46,30 @@ public class D3GeneratorLauncher {
         String port = System.getenv(PORT);
 
         if (port == null || port.isEmpty()) {
-            return DEFAULT_PORT;
+            return DEVELOPMENT_PORT;
         }
 
         return Integer.parseInt(port);
     }
 
+    private static String loadMixpanelScript(String mixpanelScriptFilename)
+            throws IOException {
+
+        FileReader reader = new FileReader("config/" + mixpanelScriptFilename);
+        try {
+            return IOUtils.toString(reader);
+        } finally {
+            reader.close();
+        }
+    }
+
     public static void main(String[] args) throws Exception {
-        start(new D3GeneratorConfiguration(getPort()));
+        int port = getPort();
+        boolean developmentMode = port == DEVELOPMENT_PORT;
+
+        start(new D3GeneratorConfiguration(port,
+                loadMixpanelScript(developmentMode ? "mixpanel-stub.js"
+                        : "mixpanel-test.js")));
     }
 
     public static void start(D3GeneratorConfiguration configuration)

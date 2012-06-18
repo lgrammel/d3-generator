@@ -29,14 +29,19 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
 
     private int port;
 
-    public D3GeneratorConfiguration(int port) {
+    private String mixpanelScript;
+
+    public D3GeneratorConfiguration(int port, String mixpanelScript) {
         assert port >= 1;
 
+        this.mixpanelScript = mixpanelScript;
         this.port = port;
     }
 
     private void configureRestServices() {
         bind(BarChartGeneratorService.class);
+        bindConstant().annotatedWith(IndexServlet.MixpanelScript.class).to(
+                mixpanelScript);
 
         serveRegex("^/generator/.*$").with(GuiceContainer.class);
         serve("/", "/index.*").with(IndexServlet.class);

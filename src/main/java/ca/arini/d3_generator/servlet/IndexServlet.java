@@ -20,25 +20,40 @@
 package ca.arini.d3_generator.servlet;
 
 import java.io.IOException;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.inject.BindingAnnotation;
+import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
 public class IndexServlet extends HttpServlet {
 
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ ElementType.FIELD, ElementType.PARAMETER })
+    @BindingAnnotation
+    public @interface MixpanelScript {
+    }
+
     private static final long serialVersionUID = 1L;
 
-    // TODO inject mixpanel script
+    @Inject
+    @MixpanelScript
+    private String mixpanelScript;
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        req.setAttribute("mixpanelScript", mixpanelScript);
         req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
     }
 
