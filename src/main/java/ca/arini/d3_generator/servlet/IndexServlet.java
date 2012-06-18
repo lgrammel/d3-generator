@@ -17,38 +17,29 @@
  * from Arini Software Inc.
  *
  *************************************************************************/
-package ca.arini.d3_generator.launch;
+package ca.arini.d3_generator.servlet;
 
-import ca.arini.d3_generator.service.BarChartGeneratorService;
-import ca.arini.d3_generator.servlet.IndexServlet;
+import java.io.IOException;
 
-import com.sun.jersey.guice.JerseyServletModule;
-import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-public final class D3GeneratorConfiguration extends JerseyServletModule {
+import com.google.inject.Singleton;
 
-    private int port;
+@Singleton
+public class IndexServlet extends HttpServlet {
 
-    public D3GeneratorConfiguration(int port) {
-        assert port >= 1;
+    private static final long serialVersionUID = 1L;
 
-        this.port = port;
-    }
-
-    private void configureRestServices() {
-        bind(BarChartGeneratorService.class);
-
-        serveRegex("^/generator/.*$").with(GuiceContainer.class);
-        serve("/", "/index.*").with(IndexServlet.class);
-    }
+    // TODO inject mixpanel script
 
     @Override
-    protected void configureServlets() {
-        configureRestServices();
-    }
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+            throws ServletException, IOException {
 
-    public int getPort() {
-        return port;
+        req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
     }
 
 }
