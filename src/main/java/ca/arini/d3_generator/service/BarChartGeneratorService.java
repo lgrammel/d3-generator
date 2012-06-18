@@ -45,7 +45,7 @@ public class BarChartGeneratorService {
     public Response recommendVisualizations(
             @QueryParam("categoryColumn") String categoryColumn,
             @QueryParam("measureColumn") String measureColumn,
-            @QueryParam("order") String order) {
+            @QueryParam("orderColumn") String orderColumn) {
 
         Properties properties = new Properties();
         properties.put("rythm.mode", "dev"); // TODO production mode
@@ -55,7 +55,7 @@ public class BarChartGeneratorService {
         Map<String, String> args = new HashMap<String, String>();
         args.put("categoryColumn", categoryColumn);
         args.put("measureColumn", measureColumn);
-        args.put("order", null);
+        args.put("order", orderColumn);
 
         String generatedCode = Rythm.render("templates/barchart.rythm", args);
 

@@ -110,21 +110,28 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
             <form class="form-horizontal">
                 <fieldset>
                     <div class="control-group">
-                        <label class="control-label" for="inputCategoryColumn">Category column</label>
+                        <label class="control-label" for="inputCategoryColumn">Bar label is</label>
                         <div class="controls">
                             <select id="inputCategoryColumn">
                             </select>
                         </div>
                     </div>
                     <div class="control-group">
-                        <label class="control-label" for="inputMeasureColumn">Value column</label>
+                        <label class="control-label" for="inputMeasureColumn">Bar length is</label>
                         <div class="controls">
                             <select id="inputMeasureColumn">
                             </select>
                         </div>
                     </div>
+                    <div class="control-group">
+                        <label class="control-label" for="orderColumn">Order by</label>
+                        <div class="controls">
+                            <select id="orderColumn">
+                            </select>
+                        </div>
+                    </div>
                     <div class="form-actions">
-                        <a onclick="callCodeGenerator(document.getElementById('inputCategoryColumn').value,document.getElementById('inputMeasureColumn').value)" class="btn btn-primary" id="buttonGenerateCode">
+                        <a onclick="callCodeGenerator(document.getElementById('inputCategoryColumn').value,document.getElementById('inputMeasureColumn').value,document.getElementById('orderColumn').value)" class="btn btn-primary" id="buttonGenerateCode">
                             <i class="icon-picture icon-white"></i>
                             Generate Chart
                         </a>
@@ -180,9 +187,25 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
 
     updateChartGeneratorState();
 
-    function callCodeGenerator(categoryColumn, measureColumn) {
-        mixpanel.track("generate_chart")
+    function callCodeGenerator(categoryColumn, measureColumn, orderColumn) {
+        if ("" === orderColumn || undefined === orderColumn) {
+            orderColumn = undefined;
+            hasOrder = false;
+        } else {
+            hasOrder = true;
+        }
+
+
+        mixpanel.track("generate_chart", {
+            'order': hasOrder
+        });
+
         url = '/generator/barchart?categoryColumn=' + categoryColumn + '&measureColumn=' + measureColumn;
+
+        if (hasOrder) {
+            url += '&orderColumn=' + orderColumn;
+        }
+
         d3.text(url, function(generatedCode) {
             $('#chart').empty();
             window.sourceEditor.getSession().setValue(generatedCode);
@@ -222,15 +245,18 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
 
             $('#inputCategoryColumn').html(allColumnOptions);
             $('#inputMeasureColumn').html(numericColumnOptions);
+            $('#orderColumn').html('<option value="">no order</option>' + numericColumnOptions);
 
             $('#inputCategoryColumn').attr('disabled', false);
 
             if (numericColumns.length > 0) {
                 $('#inputMeasureColumn').attr('disabled', false);
+                $('#orderColumn').attr('disabled', false);
                 $('#buttonGenerateCode').removeClass('disabled');
                 $('#warning-no-numerical-columns').hide();
             } else {
                 $('#inputMeasureColumn').attr('disabled', true);
+                $('#orderColumn').attr('disabled', true);
                 $('#buttonGenerateCode').addClass('disabled');
                 $('#warning-no-numerical-columns').show();
             }
@@ -240,6 +266,7 @@ mixpanel.init("d5f329e2b61bfd4800deaefd97d31290");</script><!-- end Mixpanel -->
 
             $('#inputCategoryColumn').attr('disabled', true);
             $('#inputMeasureColumn').attr('disabled', true);
+            $('#orderColumn').attr('disabled', true);
             $('#buttonGenerateCode').addClass('disabled');
 
             $('#warning-no-numerical-columns').hide();
