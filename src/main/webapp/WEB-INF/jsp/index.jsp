@@ -329,6 +329,10 @@
         window.jsonEditor.resize();
         window.sourceEditor.resize();
     };
+
+    d3.text('data/countries.csv', function(csv) {
+        window.csvEditor.getSession().setValue(csv);
+    });
 </script>
 </body>
 </html>
