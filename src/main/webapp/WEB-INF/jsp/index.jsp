@@ -40,10 +40,10 @@
         <div class="span6">
             <h2>Bar Chart Settings</h2>
             <p>Configure your chart.</p>
-            <div class="alert" id="warning-no-columns" style="display: none;">
+            <div class="alert alert-error" id="warning-no-columns" style="display: none;">
                 <strong>No data available!</strong> Enter some CSV data first.
             </div>
-            <div class="alert" id="warning-no-numerical-columns" style="display: none;">
+            <div class="alert alert-error" id="warning-no-numerical-columns" style="display: none;">
                 <strong>No numerical columns available!</strong> Add a numerical column to the CSV file to render a bar chart.
             </div>
             <form class="form-horizontal">
@@ -58,11 +58,11 @@
                     <div class="control-group">
                         <label class="control-label" for="inputMeasureColumn">Bar length</label>
                         <div class="controls">
-                            <select id="measureOperation">
+                            <select class="input-small" id="measureOperation">
                                 <option value='all'>all values</option>
                                 <option value='sum'>sum</option>
                             </select>
-                            <select id="inputMeasureColumn">
+                            <select class="input-medium" id="inputMeasureColumn">
                             </select>
                         </div>
                     </div>
@@ -112,7 +112,14 @@
     <div class="row-fluid">
         <div class="span12">
             <h2>Chart</h2>
-            <div id="chart"></div>
+            <div id="chart" style="display:none;">
+            </div>
+            <div class="alert alert-error" id="renderError" style="display:none;">
+                <strong>Chart could not be rendered! Check your JavaScript source code.</strong>
+            </div>
+            <div class="alert" id="noChartYet">
+                <strong>No chart generated yet!</strong>
+            </div>
         </div>
     </div>
     <footer>
@@ -127,5 +134,5 @@
 <script src="js/ace/mode-javascript.js"></script>
 <script src="js/ace/mode-json.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="js/d3-generator.min.js"></script>
+<script src="js/d3-generator.js"></script>
 </body></html>

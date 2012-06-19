@@ -121,13 +121,22 @@ function updateChartGeneratorState() {
 }
 
 function redrawChart() {
+    var code = window.sourceEditor.getSession().getValue();
+
+    if (code === "") {
+        return;
+    }
+
     $('#chart').empty();
+    $('#chart').show();
+    $('#emptyChart').hide();
+    $('#noChartYet').hide();
 
     try {
-        var code = window.sourceEditor.getSession().getValue();
         eval(code);
-    }
-    catch (error) {
+    } catch (error) {
+        $('#chart').hide();
+        $('#renderError').show();
         console.log("error drawing chart");
         console.log(error);
     }
