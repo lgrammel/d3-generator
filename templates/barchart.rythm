@@ -67,8 +67,8 @@ chart.selectAll('.label').data(@dataVar).enter().append('text')
   .attr('y', y)
   .attr('stroke', 'none')
   .attr('fill', 'black')
-  .attr("dy", '14px') // vertical alignment
-  .attr("dx", -3) // right padding
+  .attr('dy', '14px') // vertical alignment
+  .attr('dx', '-5px') // right padding
   .attr('x', maxBarLabelWidth)
   .attr('text-anchor', 'end')
   .attr('font-size', '12px')
