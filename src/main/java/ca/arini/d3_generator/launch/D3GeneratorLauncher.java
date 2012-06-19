@@ -21,17 +21,22 @@ package ca.arini.d3_generator.launch;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.EnumSet;
+
+import javax.servlet.DispatcherType;
 
 import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
 import org.eclipse.jetty.servlet.DefaultServlet;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.google.inject.servlet.GuiceFilter;
 
 public class D3GeneratorLauncher {
@@ -74,11 +79,14 @@ public class D3GeneratorLauncher {
 
     public static void start(D3GeneratorConfiguration configuration)
             throws Exception {
-        Guice.createInjector(configuration);
-        startServer(configuration.getPort());
+
+        startServer(configuration.getPort(),
+                Guice.createInjector(configuration));
     }
 
-    private static void startServer(int port) throws Exception {
+    private static void startServer(int port, Injector injector)
+            throws Exception {
+
         // WebAppContext required for JSP
         ServletContextHandler contextHandler = new WebAppContext();
         contextHandler.setSessionHandler(new SessionHandler(
@@ -94,7 +102,10 @@ public class D3GeneratorLauncher {
         contextHandler.getServletHandler().addServletWithMapping(holder, "/");
 
         // Guice - reroute all requests
-        contextHandler.addFilter(GuiceFilter.class, "/*", 0);
+        FilterHolder guiceFilter = new FilterHolder(
+                injector.getInstance(GuiceFilter.class));
+        contextHandler.addFilter(guiceFilter, "/*",
+                EnumSet.allOf(DispatcherType.class));
 
         Server server = new Server(port);
         server.setHandler(contextHandler);
