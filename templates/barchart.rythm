@@ -26,98 +26,95 @@ aggregatedData = _.map(_.groupBy(data, function(d) { return d['@categoryColumn']
   };
 });
 } 
-// data accessor functions @if (isAggregated) {
+// accessor functions @if (isAggregated) {
 barLabel = function(d) { return d.label; };
-barLength = function(d) { return d.value; };
+barValue = function(d) { return d.value; };
 } else {
 barLabel = function(d) { return d['@categoryColumn']; };
-barLength = function(d) { return parseFloat(d['@measureColumn']); };
+barValue = function(d) { return parseFloat(d['@measureColumn']); };
 } @if (BarChartOrder.VALUE_ASCENDING == order) {
 // sorting
-sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, barLength);
+sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, barValue);
 } else if (BarChartOrder.VALUE_DESCENDING == order) {
 // sorting
-sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, function(d) { return -1 * barLength(d); });
+sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, function(d) { return -1 * barValue(d); });
 } else if (BarChartOrder.LABEL_ALPHABETICAL == order) {
 // sorting
 sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, barLabel);
 }
+// render data
+labels = _.map(@(dataVar), barLabel);
+values = _.map(@(dataVar), barValue); 
+@nocompact() {}
 // basic settings
 paddingRight = 40;
 barHeight = 20;
+labelPadding = 5;
 gridLabelHeight = 18;
 gridLabelPaddingBottom = 3;
 maxBarLabelWidth = 100;
 maxBarWidth = 420;
 @nocompact() {}
-// scales etc. 
-height = gridLabelHeight + gridLabelPaddingBottom + @(dataVar).length * barHeight;
-width = d3.scale.linear().domain([0, d3.max(@dataVar, barLength)]).range([0, maxBarWidth]);
-y = function (d, i) { return gridLabelPaddingBottom + gridLabelHeight + i * barHeight; };
-x = d3.scale.linear().domain([0, d3.max(@dataVar, barLength)]).range([maxBarLabelWidth, maxBarLabelWidth + maxBarWidth]);
+// scales
+y = d3.scale.ordinal().domain(labels).rangeBands([0, labels.length * barHeight]);
+x = d3.scale.linear().domain([0, d3.max(values)]).range([0, maxBarWidth]);
 @nocompact() {}
 // svg container element
 chart = d3.select('#chart').append("svg")
   .attr('width', maxBarWidth + maxBarLabelWidth + paddingRight)
-  .attr('height', height);
-@nocompact() {}
-// bar labels
-chart.selectAll('.label').data(@dataVar).enter().append('text')
-  .attr('class', 'label')
-  .attr('y', y)
-  .attr('stroke', 'none')
-  .attr('fill', 'black')
-  .attr('dy', '14px') // vertical alignment
-  .attr('dx', '-5px') // right padding
-  .attr('x', maxBarLabelWidth)
-  .attr('text-anchor', 'end')
-  .attr('font-size', '12px')
-  .attr('font-family', 'Arial, sans-serif')
-  .attr('font-weight', 'normal')
-  .text(barLabel);
-@nocompact() {}
-// vertical grid lines
-chart.selectAll("line").data(x.ticks(10)).enter().append("line")
-  .attr("x1", x)
-  .attr("x2", x)
-  .attr("y1", gridLabelHeight)
-  .attr("y2", height)
-  .style("stroke", "#ccc");
+  .attr('height', gridLabelHeight + gridLabelPaddingBottom + @(dataVar).length * barHeight);
 @nocompact() {}
 // grid line labels
-chart.selectAll(".rule").data(x.ticks(10)).enter().append("text")
-  .attr("class", "rule")
+gridContainer = chart.append('g')
+  .attr('transform', 'translate(' + maxBarLabelWidth + ',' + gridLabelHeight + ')'); 
+gridContainer.selectAll("text").data(x.ticks(10)).enter().append("text")
   .attr("x", x)
-  .attr("y", gridLabelHeight)
   .attr("dy", -3)
   .attr("text-anchor", "middle")
   .text(String);
 @nocompact() {}
+// vertical grid lines
+gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line")
+  .attr("x1", x)
+  .attr("x2", x)
+  .attr("y1", 0)
+  .attr("y2", height + gridLabelPaddingBottom)
+  .style("stroke", "#ccc");
+@nocompact() {}
+// bar labels
+labelsContainer = chart.append('g')
+  .attr('transform', 'translate(' + (maxBarLabelWidth - labelPadding) + ',' + (gridLabelHeight + gridLabelPaddingBottom) + ')'); 
+labelsContainer.selectAll('text').data(labels).enter().append('text')
+  .attr('y', function(d) { return y(d) + y.rangeBand() / 2; })
+  .attr('stroke', 'none')
+  .attr('fill', 'black')
+   .attr("dy", ".35em") // vertical-align: middle
+  .attr('text-anchor', 'end')
+  .text(String);
+@nocompact() {}
 // bars
-chart.selectAll("rect").data(@dataVar).enter().append("rect")
-  .attr('x', maxBarLabelWidth)
+barsContainer = chart.append('g')
+  .attr('transform', 'translate(' + maxBarLabelWidth + ',' + (gridLabelHeight + gridLabelPaddingBottom) + ')'); 
+barsContainer.selectAll("rect").data(values).enter().append("rect")
   .attr('y', y)
-  .attr('height', barHeight)
-  .attr('width', function (d) { return width(barLength(d)); } )
+  .attr('height', y.rangeBand())
+  .attr('width', x)
   .attr('stroke', 'white')
   .attr('fill', 'steelblue');
 @nocompact() {}
 // bar value labels
-chart.selectAll(".valueLabel").data(@dataVar).enter().append("text")
-  .attr("class", "valueLabel")
-  .attr("x", function (d) { return maxBarLabelWidth + width(barLength(d)); } )
-  .attr("y", function (d, i) { return y(d, i) + barHeight / 2; })
+barsContainer.selectAll("text").data(values).enter().append("text")
+  .attr("x", x)
+  .attr("y", function(d) { return y(d) + y.rangeBand() / 2; })
   .attr("dx", 3) // padding-left
   .attr("dy", ".35em") // vertical-align: middle
   .attr("text-anchor", "start") // text-align: right
   .attr("fill", "black")
   .attr("stroke", "none")
-  .text(barLength);
+  .text(function(d) { return d3.round(d, 2); });
 @nocompact() {}
 // start line
-chart.append("line")
-  .attr('x1', maxBarLabelWidth)
-  .attr('x2', maxBarLabelWidth)
-  .attr("y1", gridLabelHeight)
-  .attr("y2", height)
+barsContainer.append("line")
+  .attr("y1", -gridLabelPaddingBottom)
+  .attr("y2", height + gridLabelPaddingBottom)
   .style("stroke", "#000");
