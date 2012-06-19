@@ -134,7 +134,7 @@ function redrawChart() {
     $('#renderError').hide();
 
     try {
-        eval(code);
+        eval('(function() {' + code + '}());');
     } catch (error) {
         $('#chart').hide();
         $('#renderError').show();
