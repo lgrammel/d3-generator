@@ -176,9 +176,8 @@
 <script>
 
     mixpanel.track("pageload", {
-        'url': window.location,
-        'Browser' : BrowserDetect.browser + " " + BrowserDetect.version,
-        'OS' : BrowserDetect.OS,
+        'URL': window.location.href,
+        'Browser + Version' : BrowserDetect.browser + " " + BrowserDetect.version,
         'Screen Resolution' : screen.width + " x " + screen.height
     });
 
