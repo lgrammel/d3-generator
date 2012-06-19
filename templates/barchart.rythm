@@ -78,7 +78,7 @@ gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line")
   .attr("x1", x)
   .attr("x2", x)
   .attr("y1", 0)
-  .attr("y2", height + gridLabelPaddingBottom)
+  .attr("y2", y.rangeExtent()[1] + gridLabelPaddingBottom)
   .style("stroke", "#ccc");
 @nocompact() {}
 // bar labels
@@ -116,5 +116,5 @@ barsContainer.selectAll("text").data(values).enter().append("text")
 // start line
 barsContainer.append("line")
   .attr("y1", -gridLabelPaddingBottom)
-  .attr("y2", height + gridLabelPaddingBottom)
+  .attr("y2", y.rangeExtent()[1] + gridLabelPaddingBottom)
   .style("stroke", "#000");
