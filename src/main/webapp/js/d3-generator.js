@@ -4,11 +4,27 @@ mixpanel.track("pageload", {
     'Screen Resolution' : screen.width + " x " + screen.height
 });
 
-window.data = []
+window.data = [];
+window.editorContent = "";
 
 updateChartGeneratorState();
 
 function generateChartButtonClicked() {
+    $('#generateButtonSection').hide();
+    if (window.editorContent != window.sourceEditor.getSession().getValue()) {
+        $('#sourceCodeOverrideAlert').show();
+    } else {
+        doCallCodeGenerator();
+    }
+}
+
+function abortCodeGeneration() {
+    $('#sourceCodeOverrideAlert').hide();
+    $('#generateButtonSection').show();
+}
+
+function doCallCodeGenerator() {
+    $('#sourceCodeOverrideAlert').hide();
     callCodeGenerator(
         $('#inputCategoryColumn').val(),
         $('#inputMeasureColumn').val(),
@@ -35,10 +51,12 @@ function callCodeGenerator(categoryColumn, measureColumn, orderColumn, measureOp
     }
 
     d3.text(url, function(generatedCode) {
+        window.editorContent = generatedCode;
         $('#chart').empty();
         window.sourceEditor.getSession().setValue(generatedCode);
         window.sourceEditor.resize();
         redrawChart();
+        $('#generateButtonSection').show();
     });
 }
 

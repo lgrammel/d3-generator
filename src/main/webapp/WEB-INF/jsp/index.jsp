@@ -94,7 +94,7 @@
                             </label>
                         </div>
                     </div>
-                    <div class="form-actions">
+                    <div class="form-actions" id="generateButtonSection">
                         <a onclick="generateChartButtonClicked()" class="btn btn-primary" id="buttonGenerateCode">
                             <i class="icon-picture icon-white"></i>
                             Generate Chart
@@ -102,6 +102,14 @@
                     </div>
                 </fieldset>
             </form>
+            <div class="alert alert-block alert-error" style="display:none;" id="sourceCodeOverrideAlert">
+                <h4 class="alert-heading">This will override your source code edits!</h4>
+                <p>Are you sure?</p>
+                <p>
+                    <a class="btn btn-danger" onclick="doCallCodeGenerator()">Yes, override my changes</a>
+                    <a class="btn" onclick="abortCodeGeneration()">Not for now - I like my changes</a>
+                </p>
+            </div>
         </div>
     </div>
     <div style="position:relative; top: -40px;"><a name="source">&nbsp</a></div>
