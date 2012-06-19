@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <%= request.getAttribute("mixpanelScript") %>
-    <title>d3.js chart generator</title>
+    <title>Generate D3 Bar Chart Source Code - D3.js Visualization Creator</title>
 
     <meta charset="utf-8">
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
