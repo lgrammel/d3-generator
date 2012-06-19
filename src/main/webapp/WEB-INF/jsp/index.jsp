@@ -131,8 +131,9 @@
             </div>
         </div>
     </div>
+    <hr/>
     <footer>
-        <p>&copy; <a href="http://www.larsgrammel.de">Lars Grammel</a> 2012</p>
+        <p>D3-Generator.com &copy; <a href="http://www.larsgrammel.de">Lars Grammel</a> 2012</p>
     </footer>
 </div>
 
