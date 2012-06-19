@@ -43,19 +43,22 @@ sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, function(
 sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, barLabel);
 }
 // basic settings
+paddingRight = 40;
 barHeight = 20;
+gridLabelHeight = 18;
+gridLabelPaddingBottom = 3;
 maxBarLabelWidth = 100;
 maxBarWidth = 420;
 @nocompact() {}
 // scales etc. 
-height = @(dataVar).length * barHeight;
+height = gridLabelHeight + gridLabelPaddingBottom + @(dataVar).length * barHeight;
 width = d3.scale.linear().domain([0, d3.max(@dataVar, barLength)]).range([0, maxBarWidth]);
-y = function (d, i) { return i * barHeight; };
+y = function (d, i) { return gridLabelPaddingBottom + gridLabelHeight + i * barHeight; };
 x = d3.scale.linear().domain([0, d3.max(@dataVar, barLength)]).range([maxBarLabelWidth, maxBarLabelWidth + maxBarWidth]);
 @nocompact() {}
 // svg container element
 chart = d3.select('#chart').append("svg")
-  .attr('width', maxBarWidth + maxBarLabelWidth)
+  .attr('width', maxBarWidth + maxBarLabelWidth + paddingRight)
   .attr('height', height);
 @nocompact() {}
 // bar labels
@@ -77,9 +80,18 @@ chart.selectAll('.label').data(@dataVar).enter().append('text')
 chart.selectAll("line").data(x.ticks(10)).enter().append("line")
   .attr("x1", x)
   .attr("x2", x)
-  .attr("y1", 0)
+  .attr("y1", gridLabelHeight)
   .attr("y2", height)
   .style("stroke", "#ccc");
+@nocompact() {}
+// grid line labels
+chart.selectAll(".rule").data(x.ticks(10)).enter().append("text")
+  .attr("class", "rule")
+  .attr("x", x)
+  .attr("y", gridLabelHeight)
+  .attr("dy", -3)
+  .attr("text-anchor", "middle")
+  .text(String);
 @nocompact() {}
 // bars
 chart.selectAll("rect").data(@dataVar).enter().append("rect")
@@ -90,10 +102,22 @@ chart.selectAll("rect").data(@dataVar).enter().append("rect")
   .attr('stroke', 'white')
   .attr('fill', 'steelblue');
 @nocompact() {}
+// bar value labels
+chart.selectAll(".valueLabel").data(@dataVar).enter().append("text")
+  .attr("class", "valueLabel")
+  .attr("x", function (d) { return maxBarLabelWidth + width(barLength(d)); } )
+  .attr("y", function (d, i) { return y(d, i) + barHeight / 2; })
+  .attr("dx", 3) // padding-left
+  .attr("dy", ".35em") // vertical-align: middle
+  .attr("text-anchor", "start") // text-align: right
+  .attr("fill", "black")
+  .attr("stroke", "none")
+  .text(barLength);
+@nocompact() {}
 // start line
 chart.append("line")
   .attr('x1', maxBarLabelWidth)
   .attr('x2', maxBarLabelWidth)
-  .attr("y1", 0)
+  .attr("y1", gridLabelHeight)
   .attr("y2", height)
   .style("stroke", "#000");
