@@ -26,11 +26,18 @@
                 <span class="icon-bar"></span>
             </a>
             <a class="brand" href="#">d3.js bar chart generator</a>
+            <ul class="nav">
+                <li><a href="#">Top</a></li>
+                <li><a href="#settings">Settings</a></li>
+                <li><a href="#source">Source Code</a></li>
+                <li><a href="#chart">Chart</a></li>
+            </ul>
         </div>
     </div>
 </div>
 
 <div class="container-fluid">
+    <div style="position:relative; top: -40px;"><a name="settings">&nbsp</a></div>
     <div class="row-fluid">
         <div class="span6">
             <h2>CSV</h2>
@@ -97,6 +104,7 @@
             </form>
         </div>
     </div>
+    <div style="position:relative; top: -40px;"><a name="source">&nbsp</a></div>
     <div class="row-fluid">
         <div class="span6">
             <h2>Parsed Data</h2>
@@ -109,6 +117,7 @@
             <div id="sourceEditor"></div>
         </div>
      </div>
+    <div style="position:relative; top: -40px;"><a name="chart">&nbsp</a></div>
     <div class="row-fluid">
         <div class="span12">
             <h2>Chart</h2>
