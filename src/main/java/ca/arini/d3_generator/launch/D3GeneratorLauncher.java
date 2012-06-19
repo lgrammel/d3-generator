@@ -33,7 +33,6 @@ import org.eclipse.jetty.servlet.DefaultServlet;
 import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
-import org.eclipse.jetty.webapp.WebAppContext;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -87,8 +86,7 @@ public class D3GeneratorLauncher {
     private static void startServer(int port, Injector injector)
             throws Exception {
 
-        // WebAppContext required for JSP
-        ServletContextHandler contextHandler = new WebAppContext();
+        ServletContextHandler contextHandler = new ServletContextHandler();
         contextHandler.setSessionHandler(new SessionHandler(
                 new HashSessionManager()));
         contextHandler.setContextPath("/");

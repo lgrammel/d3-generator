@@ -19,6 +19,11 @@
  *************************************************************************/
 package ca.arini.d3_generator.launch;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.jasper.servlet.JspServlet;
+
 import ca.arini.d3_generator.service.BarChartGeneratorService;
 import ca.arini.d3_generator.servlet.IndexServlet;
 
@@ -45,6 +50,10 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
 
         serveRegex("^/generator/.*$").with(GuiceContainer.class);
         serve("/", "/index.*").with(IndexServlet.class);
+
+        Map<String, String> jspParams = new HashMap<String, String>();
+        jspParams.put("fork", "false");
+        serve("/WEB-INF/jsp/*").with(new JspServlet(), jspParams);
     }
 
     @Override
