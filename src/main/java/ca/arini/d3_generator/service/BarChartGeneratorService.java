@@ -61,7 +61,7 @@ public class BarChartGeneratorService {
         args.put("measureColumn", measureColumn);
         args.put("order", BarChartOrder.valueOf(orderColumn));
 
-        String generatedCode = Rythm.render("templates/barchart.rythm", args);
+        String generatedCode = Rythm.render("templates/barchart.js", args);
 
         return Response.status(Status.ACCEPTED).entity(generatedCode).build();
     }
