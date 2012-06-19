@@ -131,6 +131,7 @@ function redrawChart() {
     $('#chart').show();
     $('#emptyChart').hide();
     $('#noChartYet').hide();
+    $('#renderError').hide();
 
     try {
         eval(code);
