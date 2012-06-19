@@ -167,12 +167,20 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script src="js/underscore/underscore-min.js"></script>
-<script src="js/d3/d3.v2.js"></script>
+<script src="js/d3/d3.v2.min.js"></script>
+<script src="js/browserdetect/browserdetect.js"></script>
 <script src="js/ace/ace.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/ace/mode-javascript.js" type="text/javascript" charset="utf-8"></script>
 <script src="js/ace/mode-json.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script>
+
+    mixpanel.track("pageload", {
+        'url': window.location,
+        'Browser' : BrowserDetect.browser + " " + BrowserDetect.version,
+        'OS' : BrowserDetect.OS,
+        'Screen Resolution' : screen.width + " x " + screen.height
+    });
 
     window.data = []
 
