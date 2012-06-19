@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
 <head>
-<%= request.getAttribute("mixpanelScript") %>
+    <%= request.getAttribute("mixpanelScript") %>
     <title>d3.js chart generator</title>
 
     <meta charset="utf-8">
@@ -12,18 +12,9 @@
     <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
     <link href="css/d3-generator.css" rel="stylesheet">
 
-    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
     <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <!-- fav and touch icons
-    <link rel="shortcut icon" href="../assets/ico/favicon.ico">
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="../assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="../assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
-    -->
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
@@ -129,9 +120,6 @@
     </footer>
 </div>
 
-<!-- Javascript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
 <script src="js/underscore/underscore-min.js"></script>
 <script src="js/d3/d3.v2.min.js"></script>
 <script src="js/browserdetect/browserdetect.min.js"></script>
