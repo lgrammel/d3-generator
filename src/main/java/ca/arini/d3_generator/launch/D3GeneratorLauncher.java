@@ -19,13 +19,13 @@
  *************************************************************************/
 package ca.arini.d3_generator.launch;
 
-import java.io.FileReader;
-import java.io.IOException;
+import static ca.arini.d3_generator.launch.D3GeneratorConfiguration.createDevelopmentConfiguration;
+import static ca.arini.d3_generator.launch.D3GeneratorConfiguration.createTestConfiguration;
+
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
 
-import org.apache.commons.io.IOUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.session.HashSessionManager;
 import org.eclipse.jetty.server.session.SessionHandler;
@@ -56,24 +56,12 @@ public class D3GeneratorLauncher {
         return Integer.parseInt(port);
     }
 
-    private static String loadMixpanelScript(String mixpanelScriptFilename)
-            throws IOException {
-
-        FileReader reader = new FileReader("config/" + mixpanelScriptFilename);
-        try {
-            return IOUtils.toString(reader);
-        } finally {
-            reader.close();
-        }
-    }
-
     public static void main(String[] args) throws Exception {
         int port = getPort();
         boolean developmentMode = port == DEVELOPMENT_PORT;
 
-        start(new D3GeneratorConfiguration(port,
-                loadMixpanelScript(developmentMode ? "mixpanel-stub.js"
-                        : "mixpanel-test.js")));
+        start(developmentMode ? createDevelopmentConfiguration(port)
+                : createTestConfiguration(port));
     }
 
     public static void start(D3GeneratorConfiguration configuration)

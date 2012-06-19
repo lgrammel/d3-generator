@@ -19,11 +19,16 @@
  *************************************************************************/
 package ca.arini.d3_generator.launch;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.jasper.servlet.JspServlet;
 
+import ca.arini.d3_generator.renderer.Renderer;
+import ca.arini.d3_generator.renderer.RythmDevelopmentRenderer;
 import ca.arini.d3_generator.service.BarChartGeneratorService;
 import ca.arini.d3_generator.servlet.IndexServlet;
 
@@ -32,19 +37,62 @@ import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 public final class D3GeneratorConfiguration extends JerseyServletModule {
 
+    public static D3GeneratorConfiguration createDevelopmentConfiguration(
+            int port) throws IOException {
+
+        D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
+
+        configuration.port = port;
+        configuration.mixpanelScript = loadMixpanelScript("mixpanel-stub.js");
+        configuration.renderer = new RythmDevelopmentRenderer();
+
+        return configuration;
+    }
+
+    public static D3GeneratorConfiguration createProductionConfiguration(
+            int port) throws IOException {
+
+        D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
+
+        configuration.port = port;
+        configuration.mixpanelScript = loadMixpanelScript("mixpanel-production.js");
+        configuration.renderer = new RythmDevelopmentRenderer();
+
+        return configuration;
+    }
+
+    public static D3GeneratorConfiguration createTestConfiguration(int port)
+            throws IOException {
+
+        D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
+
+        configuration.port = port;
+        configuration.mixpanelScript = loadMixpanelScript("mixpanel-test.js");
+        configuration.renderer = new RythmDevelopmentRenderer();
+
+        return configuration;
+    }
+
+    private static String loadMixpanelScript(String mixpanelScriptFilename)
+            throws IOException {
+
+        FileReader reader = new FileReader("config/" + mixpanelScriptFilename);
+        try {
+            return IOUtils.toString(reader);
+        } finally {
+            reader.close();
+        }
+    }
+
     private int port;
 
     private String mixpanelScript;
 
-    public D3GeneratorConfiguration(int port, String mixpanelScript) {
-        assert port >= 1;
-
-        this.mixpanelScript = mixpanelScript;
-        this.port = port;
-    }
+    private Renderer renderer;
 
     private void configureRestServices() {
         bind(BarChartGeneratorService.class);
+        bind(Renderer.class).toInstance(renderer);
         bindConstant().annotatedWith(IndexServlet.MixpanelScript.class).to(
                 mixpanelScript);
 
