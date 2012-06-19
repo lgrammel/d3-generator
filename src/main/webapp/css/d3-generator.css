@@ -1,0 +1,31 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+#chart {
+    border: 1px solid gray;
+    width: 100%;
+}
+
+#inputCSV {
+    width: 100%;
+}
+
+#jsonEditor {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+#csvEditor {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}
+
+#sourceEditor {
+    position: relative;
+    width: 100%;
+    height: 300px;
+}

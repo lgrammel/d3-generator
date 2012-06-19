@@ -8,42 +8,9 @@
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=9">
 
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <style type="text/css">
-        body {
-            padding-top: 60px;
-            padding-bottom: 40px;
-        }
-
-        #chart {
-            border: 1px solid gray;
-            width: 100%;
-        }
-
-        #inputCSV {
-            width: 100%;
-        }
-
-        #jsonEditor {
-            position: relative;
-            width: 100%;
-            height: 300px;
-        }
-
-        #csvEditor {
-            position: relative;
-            width: 100%;
-            height: 300px;
-        }
-
-        #sourceEditor {
-            position: relative;
-            width: 100%;
-            height: 300px;
-        }
-
-    </style>
-    <link href="css/bootstrap-responsive.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/bootstrap-responsive.min.css" rel="stylesheet">
+    <link href="css/d3-generator.css" rel="stylesheet">
 
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
@@ -57,7 +24,6 @@
     <link rel="apple-touch-icon-precomposed" sizes="72x72" href="../assets/ico/apple-touch-icon-72-precomposed.png">
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
     -->
-
 </head>
 <body>
 <div class="navbar navbar-fixed-top">
