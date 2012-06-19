@@ -19,21 +19,28 @@
  *************************************************************************/
 package ca.arini.d3_generator.renderer;
 
+import java.io.File;
 import java.util.Map;
 import java.util.Properties;
 
-import com.greenlaw110.rythm.Rythm;
+import com.greenlaw110.rythm.RythmEngine;
 
-public class RythmDevelopmentRenderer implements Renderer {
+public class RythmProductionRenderer implements Renderer {
+
+    private RythmEngine engine;
+
+    public RythmProductionRenderer() {
+        Properties properties = new Properties();
+        // properties.put("rythm.compactOutput", false);
+
+        engine = new RythmEngine(properties);
+
+        // TODO loop over all files in templates directory
+        engine.getTemplate(new File("templates/barchart.js"));
+    }
 
     @Override
     public String render(String template, Map<String, Object> arguments) {
-        Properties properties = new Properties();
-        properties.put("rythm.mode", "dev");
-        // properties.put("rythm.compactOutput", false);
-        Rythm.init(properties);
-
-        return Rythm.render(template, arguments);
+        return engine.render(template, arguments);
     }
-
 }

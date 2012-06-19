@@ -29,6 +29,7 @@ import org.apache.jasper.servlet.JspServlet;
 
 import ca.arini.d3_generator.renderer.Renderer;
 import ca.arini.d3_generator.renderer.RythmDevelopmentRenderer;
+import ca.arini.d3_generator.renderer.RythmProductionRenderer;
 import ca.arini.d3_generator.service.BarChartGeneratorService;
 import ca.arini.d3_generator.servlet.IndexServlet;
 
@@ -56,7 +57,7 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
 
         configuration.port = port;
         configuration.mixpanelScript = loadMixpanelScript("mixpanel-production.js");
-        configuration.renderer = new RythmDevelopmentRenderer();
+        configuration.renderer = new RythmProductionRenderer();
 
         return configuration;
     }
@@ -68,7 +69,7 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
 
         configuration.port = port;
         configuration.mixpanelScript = loadMixpanelScript("mixpanel-test.js");
-        configuration.renderer = new RythmDevelopmentRenderer();
+        configuration.renderer = new RythmProductionRenderer();
 
         return configuration;
     }
