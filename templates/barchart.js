@@ -54,12 +54,12 @@ var yScale = d3.scale.ordinal().domain(d3.range(0, @(dataVar).length)).rangeBand
 var y = function(d, i) { return yScale(i); };
 var yText = function(d, i) { return y(d, i) + yScale.rangeBand() / 2; };
 var x = d3.scale.linear().domain([0, d3.max(@(dataVar), barValue)]).range([0, maxBarWidth]);
-@nocompact() {}
+
 // svg container element
 var chart = d3.select('#chart').append("svg")
   .attr('width', maxBarWidth + barLabelWidth + valueLabelWidth)
   .attr('height', gridLabelHeight + gridChartOffset + @(dataVar).length * barHeight);
-@nocompact() {}
+
 // grid line labels
 var gridContainer = chart.append('g')
   .attr('transform', 'translate(' + barLabelWidth + ',' + gridLabelHeight + ')'); 
@@ -68,7 +68,7 @@ gridContainer.selectAll("text").data(x.ticks(10)).enter().append("text")
   .attr("dy", -3)
   .attr("text-anchor", "middle")
   .text(String);
-@nocompact() {}
+
 // vertical grid lines
 gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line")
   .attr("x1", x)
@@ -76,7 +76,7 @@ gridContainer.selectAll("line").data(x.ticks(10)).enter().append("line")
   .attr("y1", 0)
   .attr("y2", yScale.rangeExtent()[1] + gridChartOffset)
   .style("stroke", "#ccc");
-@nocompact() {}
+
 // bar labels
 var labelsContainer = chart.append('g')
   .attr('transform', 'translate(' + (barLabelWidth - barLabelPadding) + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
@@ -87,7 +87,7 @@ labelsContainer.selectAll('text').data(@(dataVar)).enter().append('text')
   .attr("dy", ".35em") // vertical-align: middle
   .attr('text-anchor', 'end')
   .text(barLabel);
-@nocompact() {}
+
 // bars
 var barsContainer = chart.append('g')
   .attr('transform', 'translate(' + barLabelWidth + ',' + (gridLabelHeight + gridChartOffset) + ')'); 
@@ -97,7 +97,7 @@ barsContainer.selectAll("rect").data(@(dataVar)).enter().append("rect")
   .attr('width', function(d) { return x(barValue(d)); })
   .attr('stroke', 'white')
   .attr('fill', 'steelblue');
-@nocompact() {}
+
 // bar value labels
 barsContainer.selectAll("text").data(@(dataVar)).enter().append("text")
   .attr("x", function(d) { return x(barValue(d)); })
@@ -108,7 +108,7 @@ barsContainer.selectAll("text").data(@(dataVar)).enter().append("text")
   .attr("fill", "black")
   .attr("stroke", "none")
   .text(function(d) { return d3.round(barValue(d), 2); });
-@nocompact() {}
+
 // start line
 barsContainer.append("line")
   .attr("y1", -gridChartOffset)

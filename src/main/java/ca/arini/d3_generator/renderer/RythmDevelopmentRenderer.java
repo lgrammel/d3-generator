@@ -30,7 +30,7 @@ public class RythmDevelopmentRenderer implements Renderer {
     public String render(String template, Map<String, Object> arguments) {
         Properties properties = new Properties();
         properties.put("rythm.mode", "dev");
-        // properties.put("rythm.compactOutput", false);
+        properties.put("rythm.compactOutput", false);
         Rythm.init(properties);
 
         return Rythm.render(template, arguments);

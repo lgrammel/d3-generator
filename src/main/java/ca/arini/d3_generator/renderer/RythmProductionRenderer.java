@@ -31,7 +31,7 @@ public class RythmProductionRenderer implements Renderer {
 
     public RythmProductionRenderer() {
         Properties properties = new Properties();
-        // properties.put("rythm.compactOutput", false);
+        properties.put("rythm.compactOutput", false);
 
         engine = new RythmEngine(properties);
 
