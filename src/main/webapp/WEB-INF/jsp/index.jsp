@@ -37,6 +37,24 @@
 </div>
 
 <div class="container-fluid">
+    <div class="hero-unit">
+    <h2>Get started with developing custom D3 bar charts in seconds!</h2>
+    <p>
+        <a href="http://d3js.org/">D3.js</a> is an awesome JavaScript library that allows you to create
+        <a href="https://github.com/mbostock/d3/wiki/Gallery">custom data visualizations</a>.
+        This code generator helps you getting off the ground quickly by automatically producing source code templates
+        for various bar chart configurations.
+        It uses the <a href="http://d3js.org/">D3</a> and <a href="http://underscorejs.org/">Underscore</a> JavaScript
+        libraries.
+        The generated source code is loosely based on
+        <a href="http://mbostock.github.com/d3/tutorial/bar-1.html">Mike Bostock's D3 bar chart tutorial</a>.
+        If you have any feedback or suggestions, <a href="mailto:lars.grammel@gmail.com">let me know</a>!
+    </p>
+    <p>
+        Have fun developing great visualizations!
+    </p>
+    </div>
+
     <div style="position:relative; top: -40px;"><a name="settings">&nbsp</a></div>
     <div class="row-fluid">
         <div class="span6">
@@ -46,7 +64,7 @@
         </div>
         <div class="span6">
             <h2>Bar Chart Settings</h2>
-            <p>Configure your chart.</p>
+            <p>Configure your chart and press <code>Generate Chart</code> to load the source code.</p>
             <div class="alert alert-error" id="warning-no-columns" style="display: none;">
                 <strong>No data available!</strong> Enter some CSV data first.
             </div>
@@ -116,12 +134,21 @@
     <div class="row-fluid">
         <div class="span6">
             <h2>Parsed Data</h2>
-            <p>Read-only, displayed as JSON. Available as <code>data</code> in the source code.</p>
+            <p>
+                The CSV data after parsing displayed as read-only JSON. Available in the <code>data</code> variable in
+                the source code. You can use <code>d3.csv</code> to load CSV files in your own page.
+            </p>
             <div id="jsonEditor">[]</div>
         </div>
         <div class="span6">
             <h2>Source Code</h2>
-            <p>The chart automatically updates when you change the source.</p>
+            <p>
+                The chart is rendered in the DOM element with the id <code>chart</code>. It automatically updates when
+                you modify the source code. You can use
+                <code>d3</code> (<a href="http://d3js.org/">d3.js</a>),
+                <code>_</code> (<a href="http://underscorejs.org/">underscore.js</a>) and
+                <code>$</code> (<a href="http://jquery.com/">JQuery</a>).
+            </p>
             <div id="sourceEditor"></div>
         </div>
      </div>
