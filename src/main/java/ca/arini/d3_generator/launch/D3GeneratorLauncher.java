@@ -20,7 +20,7 @@
 package ca.arini.d3_generator.launch;
 
 import static ca.arini.d3_generator.launch.D3GeneratorConfiguration.createDevelopmentConfiguration;
-import static ca.arini.d3_generator.launch.D3GeneratorConfiguration.createTestConfiguration;
+import static ca.arini.d3_generator.launch.D3GeneratorConfiguration.createProductionConfiguration;
 
 import java.util.EnumSet;
 
@@ -61,7 +61,7 @@ public class D3GeneratorLauncher {
         boolean developmentMode = port == DEVELOPMENT_PORT;
 
         start(developmentMode ? createDevelopmentConfiguration(port)
-                : createTestConfiguration(port));
+                : createProductionConfiguration(port));
     }
 
     public static void start(D3GeneratorConfiguration configuration)
