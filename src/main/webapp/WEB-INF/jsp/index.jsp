@@ -176,5 +176,5 @@
 <script src="js/ace/mode-javascript.js"></script>
 <script src="js/ace/mode-json.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="js/d3-generator.js"></script>
+<script src="js/d3-generator.min.js"></script>
 </body></html>

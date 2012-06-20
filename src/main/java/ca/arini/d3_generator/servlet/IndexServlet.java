@@ -54,7 +54,8 @@ public class IndexServlet extends HttpServlet {
             throws ServletException, IOException {
 
         req.setAttribute("mixpanelScript", mixpanelScript);
-        req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/index.min.jsp").forward(req,
+                resp);
     }
 
 }
