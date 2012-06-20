@@ -50,9 +50,6 @@
         <a href="http://mbostock.github.com/d3/tutorial/bar-1.html">Mike Bostock's D3 bar chart tutorial</a>.
         If you have any feedback or suggestions, <a href="mailto:lars.grammel@gmail.com">let me know</a>!
     </p>
-    <p>
-        Have fun developing great visualizations!
-    </p>
     </div>
 
     <div style="position:relative; top: -40px;"><a name="settings">&nbsp</a></div>
