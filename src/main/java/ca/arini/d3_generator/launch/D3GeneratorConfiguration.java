@@ -32,6 +32,7 @@ import ca.arini.d3_generator.renderer.RythmDevelopmentRenderer;
 import ca.arini.d3_generator.renderer.RythmProductionRenderer;
 import ca.arini.d3_generator.service.BarChartGeneratorService;
 import ca.arini.d3_generator.servlet.IndexServlet;
+import ca.arini.d3_generator.servlet.filter.HtmlWhitespaceCompressionFilter;
 
 import com.sun.jersey.guice.JerseyServletModule;
 import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
@@ -126,6 +127,7 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
 
         serveRegex("^/generator/.*$").with(GuiceContainer.class);
         serve("/", "/index.*").with(IndexServlet.class);
+        filter("/").through(HtmlWhitespaceCompressionFilter.class);
 
         Map<String, String> jspParams = new HashMap<String, String>();
         jspParams.put("fork", "false");
