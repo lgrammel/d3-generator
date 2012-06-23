@@ -22,9 +22,7 @@ package ca.arini.d3_generator.servlet.filter;
 import java.io.File;
 import java.io.IOException;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -33,13 +31,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.google.inject.Singleton;
 
 @Singleton
-public class JavascriptMinimizedFileSelectorFilter implements Filter {
-
-    private FilterConfig filterConfig;
-
-    @Override
-    public void destroy() {
-    }
+public class JavascriptMinimizedFileSelectorFilter extends AbstractFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
@@ -55,10 +47,11 @@ public class JavascriptMinimizedFileSelectorFilter implements Filter {
 
                 String minifiedURI = lowerCaseRequestUri.subSequence(0,
                         lowerCaseRequestUri.length() - 3) + ".min.js";
-                File minifiedFile = new File(filterConfig.getServletContext()
-                        .getRealPath(minifiedURI));
+                File minifiedFile = new File(getFilterConfig()
+                        .getServletContext().getRealPath(minifiedURI));
 
                 if (minifiedFile.exists()) {
+                    // return the minified file
                     request.getRequestDispatcher(minifiedURI).forward(request,
                             response);
                     return;
@@ -69,8 +62,4 @@ public class JavascriptMinimizedFileSelectorFilter implements Filter {
         chain.doFilter(request, response);
     }
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        this.filterConfig = filterConfig;
-    }
 }

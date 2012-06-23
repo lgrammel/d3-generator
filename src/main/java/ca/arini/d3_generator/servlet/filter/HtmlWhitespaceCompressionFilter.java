@@ -20,13 +20,9 @@
 package ca.arini.d3_generator.servlet.filter;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.util.regex.Pattern;
 
-import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -35,18 +31,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.inject.Singleton;
 
 @Singleton
-public class HtmlWhitespaceCompressionFilter implements Filter {
-
-    @Override
-    public void destroy() {
-    }
+public class HtmlWhitespaceCompressionFilter extends AbstractCompressionFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
             FilterChain chain) throws IOException, ServletException {
 
         if (response instanceof HttpServletResponse) {
-            String htmlOutput = getHtmlOutputFromChain(request, response, chain);
+            String htmlOutput = getOutputFromChain(request, response, chain);
 
             // remove leading whitespace
             htmlOutput = Pattern.compile("^\\s+", Pattern.MULTILINE)
@@ -68,27 +60,4 @@ public class HtmlWhitespaceCompressionFilter implements Filter {
         }
     }
 
-    private String getHtmlOutputFromChain(ServletRequest request,
-            ServletResponse response, FilterChain chain) throws IOException,
-            ServletException {
-
-        StringWriter stringWriter = new StringWriter();
-        final PrintWriter printWriter = new PrintWriter(stringWriter);
-        chain.doFilter(request, new DelegatingHttpServletResponse(
-                (HttpServletResponse) response) {
-            @Override
-            public PrintWriter getWriter() throws IOException {
-                return printWriter;
-            }
-
-            @Override
-            public void setContentLength(int len) {
-            }
-        });
-        return stringWriter.toString();
-    }
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-    }
 }
