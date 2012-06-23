@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html lang="en">
 <head>
-    <%= request.getAttribute("mixpanelScript") %>
+    <script type='text/javascript'><%= request.getAttribute("mixpanelScript") %></script>
     <title>Generate D3 Bar Chart Source Code - D3.js Visualization Creator</title>
 
     <meta charset="utf-8">

@@ -1,3 +1,22 @@
+var createErrorHandlingWrapper = function(delegate){
+    return function(){
+        try {
+            return delegate.apply(this, arguments);
+        } catch (ex) {
+            // TODO error handler
+        }
+    };
+};
+
+mixpanel =  {
+    track: createErrorHandlingWrapper(mixpanel.track),
+    track_funnel: createErrorHandlingWrapper(mixpanel.track_funnel),
+    register: createErrorHandlingWrapper(mixpanel.register),
+    register_once: createErrorHandlingWrapper(mixpanel.register_once),
+    register_funnel: createErrorHandlingWrapper(mixpanel.register_funnel),
+    identify: createErrorHandlingWrapper(mixpanel.identify)
+};
+
 mixpanel.track("pageload", {
     'URL': window.location.href,
     'Browser + Version' : BrowserDetect.browser + " " + BrowserDetect.version,
