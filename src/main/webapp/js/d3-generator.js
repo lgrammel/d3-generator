@@ -1,5 +1,5 @@
-var createErrorHandlingWrapper = function(delegate){
-    return function(){
+var createErrorHandlingWrapper = function(delegate) {
+    return function() {
         try {
             return delegate.apply(this, arguments);
         } catch (ex) {
