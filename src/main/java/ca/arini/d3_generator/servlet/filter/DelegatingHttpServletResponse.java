@@ -28,11 +28,11 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-public class HttpServletResponseDelegate implements HttpServletResponse {
+public class DelegatingHttpServletResponse implements HttpServletResponse {
 
     private HttpServletResponse delegate;
 
-    public HttpServletResponseDelegate(HttpServletResponse delegate) {
+    public DelegatingHttpServletResponse(HttpServletResponse delegate) {
         assert delegate != null;
         this.delegate = delegate;
     }

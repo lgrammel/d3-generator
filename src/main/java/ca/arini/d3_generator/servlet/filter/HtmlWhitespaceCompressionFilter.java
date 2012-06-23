@@ -74,7 +74,7 @@ public class HtmlWhitespaceCompressionFilter implements Filter {
 
         StringWriter stringWriter = new StringWriter();
         final PrintWriter printWriter = new PrintWriter(stringWriter);
-        chain.doFilter(request, new HttpServletResponseDelegate(
+        chain.doFilter(request, new DelegatingHttpServletResponse(
                 (HttpServletResponse) response) {
             @Override
             public PrintWriter getWriter() throws IOException {
