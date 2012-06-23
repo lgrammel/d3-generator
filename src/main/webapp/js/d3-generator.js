@@ -15,6 +15,35 @@ mixpanel.register_once = createErrorHandlingWrapper(mixpanel, mixpanel.register_
 mixpanel.register_funnel = createErrorHandlingWrapper(mixpanel, mixpanel.register_funnel);
 mixpanel.identify = createErrorHandlingWrapper(mixpanel, mixpanel.identify);
 
+var createThrottledTracker = function(milliseconds, trackingFunction, enabled) {
+
+    var hasBeenTracked = false;
+
+    var resetTrackingStatus = function() {
+        hasBeenTracked = false;
+    }
+
+    return {
+        'track': function() {
+            if (hasBeenTracked || !enabled) {
+                return;
+            }
+
+            hasBeenTracked = true;
+            trackingFunction();
+            setInterval(resetTrackingStatus, milliseconds);
+        },
+
+        'setEnabled': function(newState) {
+            enabled = newState;
+        }
+    };
+}
+
+var csvChangeTracker = createThrottledTracker(60 * 1000, function() {
+    mixpanel.track("csv_change");
+}, false);
+
 mixpanel.track("pageload", {
     'URL': window.location.href,
     'Browser + Version' : BrowserDetect.browser + " " + BrowserDetect.version,
@@ -77,6 +106,12 @@ function parseCsv(csv) {
     window.jsonEditor.getSession().setValue(JSON.stringify(window.data, undefined, 2));
     updateChartGeneratorState();
 }
+
+function onCsvChange() {
+    csvChangeTracker.track();
+    parseCsv(window.csvEditor.getSession().getValue());
+    window.csvEditor.resize();
+};
 
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -189,10 +224,7 @@ window.sourceEditor.getSession().on('change', redrawChart);
 
 window.csvEditor = ace.edit("csvEditor");
 window.csvEditor.setShowPrintMargin(false);
-window.csvEditor.getSession().on('change', function() {
-    parseCsv(window.csvEditor.getSession().getValue());
-    window.csvEditor.resize();
-});
+window.csvEditor.getSession().on('change', onCsvChange);
 
 window.onResize = function() {
     window.csvEditor.resize();
@@ -202,4 +234,5 @@ window.onResize = function() {
 
 d3.text('data/countries.csv', function(csv) {
     window.csvEditor.getSession().setValue(csv);
+    csvChangeTracker.setEnabled(true);
 });
