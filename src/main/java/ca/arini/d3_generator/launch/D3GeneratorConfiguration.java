@@ -38,36 +38,58 @@ import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 public final class D3GeneratorConfiguration extends JerseyServletModule {
 
-    public static D3GeneratorConfiguration createDevelopmentConfiguration(
-            int port) throws IOException {
+    private static final String DEVELOPMENT_MODE = "development";
+
+    private static final String STAGING_MODE = "staging";
+
+    private static final String PRODUCTION_MODE = "production";
+
+    private static final String PORT = "PORT";
+
+    private static final int DEVELOPMENT_PORT = 8080;
+
+    public static D3GeneratorConfiguration create(String mode) throws Exception {
+        if (PRODUCTION_MODE.equals(mode)) {
+            return createProductionConfiguration();
+        } else if (STAGING_MODE.equals(mode)) {
+            return createStagingConfiguration();
+        } else if (DEVELOPMENT_MODE.equals(mode)) {
+            return createDevelopmentConfiguration();
+        } else {
+            throw new Exception("No configuration for mode `" + mode + "`");
+        }
+    }
+
+    private static D3GeneratorConfiguration createDevelopmentConfiguration()
+            throws Exception {
 
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
-        configuration.port = port;
+        configuration.port = DEVELOPMENT_PORT;
         configuration.mixpanelScript = loadMixpanelScript("mixpanel-stub.js");
         configuration.renderer = new RythmDevelopmentRenderer();
 
         return configuration;
     }
 
-    public static D3GeneratorConfiguration createProductionConfiguration(
-            int port) throws IOException {
+    private static D3GeneratorConfiguration createProductionConfiguration()
+            throws Exception {
 
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
-        configuration.port = port;
+        configuration.port = Integer.parseInt(System.getenv(PORT));
         configuration.mixpanelScript = loadMixpanelScript("mixpanel-production.js");
         configuration.renderer = new RythmProductionRenderer();
 
         return configuration;
     }
 
-    public static D3GeneratorConfiguration createTestConfiguration(int port)
-            throws IOException {
+    private static D3GeneratorConfiguration createStagingConfiguration()
+            throws Exception {
 
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
-        configuration.port = port;
+        configuration.port = Integer.parseInt(System.getenv(PORT));
         configuration.mixpanelScript = loadMixpanelScript("mixpanel-test.js");
         configuration.renderer = new RythmProductionRenderer();
 

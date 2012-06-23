@@ -19,9 +19,6 @@
  *************************************************************************/
 package ca.arini.d3_generator.launch;
 
-import static ca.arini.d3_generator.launch.D3GeneratorConfiguration.createDevelopmentConfiguration;
-import static ca.arini.d3_generator.launch.D3GeneratorConfiguration.createProductionConfiguration;
-
 import java.util.EnumSet;
 
 import javax.servlet.DispatcherType;
@@ -40,28 +37,12 @@ import com.google.inject.servlet.GuiceFilter;
 
 public class D3GeneratorLauncher {
 
-    private static final int DEVELOPMENT_PORT = 8080;
+    private static final String MODE = "MODE";
 
     private static final String WEB_APP_DIRECTORY = "src/main/webapp/";
 
-    private static final String PORT = "PORT";
-
-    private static int getPort() {
-        String port = System.getenv(PORT);
-
-        if (port == null || port.isEmpty()) {
-            return DEVELOPMENT_PORT;
-        }
-
-        return Integer.parseInt(port);
-    }
-
     public static void main(String[] args) throws Exception {
-        int port = getPort();
-        boolean developmentMode = port == DEVELOPMENT_PORT;
-
-        start(developmentMode ? createDevelopmentConfiguration(port)
-                : createProductionConfiguration(port));
+        start(D3GeneratorConfiguration.create(System.getenv(MODE)));
     }
 
     public static void start(D3GeneratorConfiguration configuration)
