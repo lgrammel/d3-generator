@@ -66,7 +66,8 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
         configuration.port = DEVELOPMENT_PORT;
-        configuration.mixpanelScript = loadMixpanelScript("mixpanel-logging-stub.js");
+        configuration.mixpanelScript = loadScript("mixpanel-error-stub.js");
+        configuration.errorHandlerScript = loadScript("errorhandler-logging.js");
         configuration.renderer = new RythmDevelopmentRenderer();
 
         return configuration;
@@ -78,7 +79,8 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
         configuration.port = Integer.parseInt(System.getenv(PORT));
-        configuration.mixpanelScript = loadMixpanelScript("mixpanel-production.js");
+        configuration.mixpanelScript = loadScript("mixpanel-production.js");
+        configuration.errorHandlerScript = loadScript("errorhandler-null.js");
         configuration.renderer = new RythmProductionRenderer();
 
         return configuration;
@@ -90,16 +92,15 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
         configuration.port = Integer.parseInt(System.getenv(PORT));
-        configuration.mixpanelScript = loadMixpanelScript("mixpanel-test.js");
+        configuration.mixpanelScript = loadScript("mixpanel-test.js");
+        configuration.errorHandlerScript = loadScript("errorhandler-logging.js");
         configuration.renderer = new RythmProductionRenderer();
 
         return configuration;
     }
 
-    private static String loadMixpanelScript(String mixpanelScriptFilename)
-            throws IOException {
-
-        FileReader reader = new FileReader("config/" + mixpanelScriptFilename);
+    private static String loadScript(String scriptFilename) throws IOException {
+        FileReader reader = new FileReader("config/" + scriptFilename);
         try {
             return IOUtils.toString(reader);
         } finally {
@@ -111,6 +112,8 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
 
     private String mixpanelScript;
 
+    private String errorHandlerScript;
+
     private Renderer renderer;
 
     private void configureRestServices() {
@@ -118,6 +121,8 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
         bind(Renderer.class).toInstance(renderer);
         bindConstant().annotatedWith(IndexServlet.MixpanelScript.class).to(
                 mixpanelScript);
+        bindConstant().annotatedWith(IndexServlet.ErrorHandlerScript.class).to(
+                errorHandlerScript);
 
         serveRegex("^/generator/.*$").with(GuiceContainer.class);
         serve("/", "/index.*").with(IndexServlet.class);

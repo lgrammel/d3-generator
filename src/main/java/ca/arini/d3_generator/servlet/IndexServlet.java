@@ -40,6 +40,12 @@ public class IndexServlet extends HttpServlet {
     @Retention(RetentionPolicy.RUNTIME)
     @Target({ ElementType.FIELD, ElementType.PARAMETER })
     @BindingAnnotation
+    public @interface ErrorHandlerScript {
+    }
+
+    @Retention(RetentionPolicy.RUNTIME)
+    @Target({ ElementType.FIELD, ElementType.PARAMETER })
+    @BindingAnnotation
     public @interface MixpanelScript {
     }
 
@@ -49,13 +55,17 @@ public class IndexServlet extends HttpServlet {
     @MixpanelScript
     private String mixpanelScript;
 
+    @Inject
+    @ErrorHandlerScript
+    private String errorHandlerScript;
+
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
+        req.setAttribute("errorHandlerScript", errorHandlerScript);
         req.setAttribute("mixpanelScript", mixpanelScript);
-        req.getRequestDispatcher("/WEB-INF/jsp/index.min.jsp").forward(req,
-                resp);
+        req.getRequestDispatcher("/WEB-INF/jsp/index.jsp").forward(req, resp);
     }
 
 }
