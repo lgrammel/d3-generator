@@ -41,6 +41,20 @@ import com.sun.jersey.guice.spi.container.servlet.GuiceContainer;
 
 public final class D3GeneratorConfiguration extends JerseyServletModule {
 
+    private static final String ERRORHANDLER_LOGGING = "errorhandler-logging.js";
+
+    private static final String ERRORHANDLER_NULL = "errorhandler-null.js";
+
+    private static final String MIXPANEL_LOGGING = "mixpanel-logging-stub.js";
+
+    private static final String MIXPANEL_ERROR = "mixpanel-error-stub.js";
+
+    private static final String MIXPANEL_NULL = "mixpanel-null-stub.js";
+
+    private static final String MIXPANEL_TEST = "mixpanel-test.js";
+
+    private static final String MIXPANEL_PRODUCTION = "mixpanel-production.js";
+
     private static final String DEVELOPMENT_MODE = "development";
 
     private static final String STAGING_MODE = "staging";
@@ -69,8 +83,8 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
         configuration.port = DEVELOPMENT_PORT;
-        configuration.mixpanelScript = loadScript("mixpanel-error-stub.js");
-        configuration.errorHandlerScript = loadScript("errorhandler-logging.js");
+        configuration.mixpanelScript = loadScript(MIXPANEL_NULL);
+        configuration.errorHandlerScript = loadScript(ERRORHANDLER_LOGGING);
         configuration.renderer = new RythmDevelopmentRenderer();
 
         return configuration;
@@ -82,8 +96,8 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
         configuration.port = Integer.parseInt(System.getenv(PORT));
-        configuration.mixpanelScript = loadScript("mixpanel-production.js");
-        configuration.errorHandlerScript = loadScript("errorhandler-null.js");
+        configuration.mixpanelScript = loadScript(MIXPANEL_PRODUCTION);
+        configuration.errorHandlerScript = loadScript(ERRORHANDLER_NULL);
         configuration.renderer = new RythmProductionRenderer();
 
         return configuration;
@@ -95,8 +109,8 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
         configuration.port = Integer.parseInt(System.getenv(PORT));
-        configuration.mixpanelScript = loadScript("mixpanel-test.js");
-        configuration.errorHandlerScript = loadScript("errorhandler-logging.js");
+        configuration.mixpanelScript = loadScript(MIXPANEL_TEST);
+        configuration.errorHandlerScript = loadScript(ERRORHANDLER_LOGGING);
         configuration.renderer = new RythmProductionRenderer();
 
         return configuration;
