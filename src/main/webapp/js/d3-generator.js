@@ -1,21 +1,19 @@
-var createErrorHandlingWrapper = function(delegate) {
+var createErrorHandlingWrapper = function(context, delegate) {
     return function() {
         try {
-            return delegate.apply(this, arguments);
+            delegate.apply(context, arguments);
         } catch (ex) {
             errorHandler.onError(ex);
         }
     };
 };
 
-mixpanel =  {
-    track: createErrorHandlingWrapper(mixpanel.track),
-    track_funnel: createErrorHandlingWrapper(mixpanel.track_funnel),
-    register: createErrorHandlingWrapper(mixpanel.register),
-    register_once: createErrorHandlingWrapper(mixpanel.register_once),
-    register_funnel: createErrorHandlingWrapper(mixpanel.register_funnel),
-    identify: createErrorHandlingWrapper(mixpanel.identify)
-};
+mixpanel.track = createErrorHandlingWrapper(mixpanel, mixpanel.track);
+mixpanel.track_funnel = createErrorHandlingWrapper(mixpanel, mixpanel.track_funnel);
+mixpanel.register = createErrorHandlingWrapper(mixpanel, mixpanel.register);
+mixpanel.register_once = createErrorHandlingWrapper(mixpanel, mixpanel.register_once);
+mixpanel.register_funnel = createErrorHandlingWrapper(mixpanel, mixpanel.register_funnel);
+mixpanel.identify = createErrorHandlingWrapper(mixpanel, mixpanel.identify);
 
 mixpanel.track("pageload", {
     'URL': window.location.href,
@@ -58,7 +56,7 @@ function callCodeGenerator(categoryColumn, measureColumn, orderColumn, measureOp
         'measureOperation': measureOperation
     });
 
-    url = '/generator/barchart'
+    var url = '/generator/barchart'
         + '?categoryColumn=' + categoryColumn
         + '&measureColumn=' + measureColumn
         + '&measureOperation=' + measureOperation
