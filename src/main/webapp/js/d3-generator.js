@@ -3,7 +3,7 @@ var createErrorHandlingWrapper = function(delegate) {
         try {
             return delegate.apply(this, arguments);
         } catch (ex) {
-            // TODO error handler
+            errorHandler.onError(ex);
         }
     };
 };
