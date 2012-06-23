@@ -98,8 +98,11 @@
 			<artifactId>jetty-jsp</artifactId>
 			<version>${jetty.version}</version>
 		</dependency>
-
-		<!-- Web Server: Automatic compression -->
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlets</artifactId>
+			<version>8.1.4.v20120524</version>
+		</dependency>
 		<dependency>
 			<groupId>com.google.javascript</groupId>
 			<artifactId>closure-compiler</artifactId>

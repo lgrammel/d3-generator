@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.jasper.servlet.JspServlet;
+import org.eclipse.jetty.servlets.GzipFilter;
 
 import ca.arini.d3_generator.renderer.Renderer;
 import ca.arini.d3_generator.renderer.RythmDevelopmentRenderer;
@@ -141,12 +142,14 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
         bindConstant().annotatedWith(IndexServlet.ErrorHandlerScript.class).to(
                 errorHandlerScript);
 
-        serveRegex("^/generator/.*$").with(GuiceContainer.class);
-        serve("/", "/index.*").with(IndexServlet.class);
+        filter("*").through(new GzipFilter());
         filter("/").through(HtmlWhitespaceCompressionFilter.class);
         filter("*.js").through(JavascriptMinimizedFileSelectorFilter.class);
         filter("/js/d3-generator.js")
                 .through(JavascriptCompressionFilter.class);
+
+        serveRegex("^/generator/.*$").with(GuiceContainer.class);
+        serve("/", "/index.*").with(IndexServlet.class);
 
         Map<String, String> jspParams = new HashMap<String, String>();
         jspParams.put("fork", "false");
