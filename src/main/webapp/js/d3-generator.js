@@ -44,6 +44,10 @@ var csvChangeTracker = createThrottledTracker(60 * 1000, function() {
     mixpanel.track("csv_change");
 }, false);
 
+var sourceCodeTracker = createThrottledTracker(60 * 1000, function() {
+    mixpanel.track("source_change");
+}, true);
+
 mixpanel.track("pageload", {
     'URL': window.location.href,
     'Browser + Version' : BrowserDetect.browser + " " + BrowserDetect.version,
@@ -92,12 +96,14 @@ function callCodeGenerator(categoryColumn, measureColumn, orderColumn, measureOp
         + '&orderColumn=' + orderColumn;
 
     d3.text(url, function(generatedCode) {
+        sourceCodeTracker.setEnabled(false);
         window.editorContent = generatedCode;
         $('#chart').empty();
         window.sourceEditor.getSession().setValue(generatedCode);
         window.sourceEditor.resize();
         redrawChart();
         $('#generateButtonSection').show();
+        sourceCodeTracker.setEnabled(true);
     });
 }
 
@@ -112,6 +118,11 @@ function onCsvChange() {
     parseCsv(window.csvEditor.getSession().getValue());
     window.csvEditor.resize();
 };
+
+function onSourceChange() {
+    sourceCodeTracker.track();
+    redrawChart();
+}
 
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
@@ -220,7 +231,7 @@ var JavascriptMode = require("ace/mode/javascript").Mode;
 window.sourceEditor = ace.edit("sourceEditor");
 window.sourceEditor.getSession().setMode(new JavascriptMode());
 window.sourceEditor.setShowPrintMargin(false);
-window.sourceEditor.getSession().on('change', redrawChart);
+window.sourceEditor.getSession().on('change', onSourceChange);
 
 window.csvEditor = ace.edit("csvEditor");
 window.csvEditor.setShowPrintMargin(false);
