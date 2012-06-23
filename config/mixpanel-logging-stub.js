@@ -1,8 +1,6 @@
 var createLogger = function(name) {
     return function() {
-        console.log("`" + name + "` called");
-        console.log("this=" + JSON.stringify(this, null, 2));
-        console.log("arguments=" + JSON.stringify(arguments, null, 2));
+        console.log(name + " (" + JSON.stringify(arguments, null, 2) + ")");
     };
 };
 
