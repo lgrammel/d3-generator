@@ -25,13 +25,36 @@ import java.io.StringWriter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public abstract class AbstractCompressionFilter extends AbstractFilter {
 
-    protected String getOutputFromChain(ServletRequest request,
+    protected abstract String compress(String originalOutput,
+            HttpServletRequest request);
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response,
+            FilterChain chain) throws IOException, ServletException {
+
+        if (response instanceof HttpServletResponse) {
+            HttpServletResponse httpResponse = (HttpServletResponse) response;
+            HttpServletRequest httpRequest = (HttpServletRequest) request;
+
+            String output = compress(
+                    getOutputFromChain(request, response, chain), httpRequest);
+
+            httpResponse.setContentLength(output.length());
+            httpResponse.getWriter().write(output);
+        } else {
+            chain.doFilter(request, response);
+        }
+    }
+
+    private String getOutputFromChain(ServletRequest request,
             ServletResponse response, FilterChain chain) throws IOException,
             ServletException {
 
@@ -39,6 +62,17 @@ public abstract class AbstractCompressionFilter extends AbstractFilter {
         final PrintWriter printWriter = new PrintWriter(stringWriter);
         chain.doFilter(request, new DelegatingHttpServletResponse(
                 (HttpServletResponse) response) {
+
+            @Override
+            public ServletOutputStream getOutputStream() throws IOException {
+                return new ServletOutputStream() {
+                    @Override
+                    public void write(int b) throws IOException {
+                        printWriter.write(b);
+                    }
+                };
+            }
+
             @Override
             public PrintWriter getWriter() throws IOException {
                 return printWriter;
@@ -50,5 +84,4 @@ public abstract class AbstractCompressionFilter extends AbstractFilter {
         });
         return stringWriter.toString();
     }
-
 }
