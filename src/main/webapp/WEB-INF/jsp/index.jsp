@@ -170,12 +170,12 @@
     </footer>
 </div>
 
-<script src="js/underscore/underscore-min.js"></script>
-<script src="js/d3/d3.v2.min.js"></script>
-<script src="js/browserdetect/browserdetect.min.js"></script>
+<script src="js/underscore/underscore.js"></script>
+<script src="js/d3/d3.v2.js"></script>
+<script src="js/browserdetect/browserdetect.js"></script>
 <script src="js/ace/ace.js"></script>
 <script src="js/ace/mode-javascript.js"></script>
 <script src="js/ace/mode-json.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-<script src="js/d3-generator.min.js"></script>
+<script src="js/d3-generator.js"></script>
 </body></html>
