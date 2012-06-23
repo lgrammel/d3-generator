@@ -53,21 +53,16 @@ function doCallCodeGenerator() {
 }
 
 function callCodeGenerator(categoryColumn, measureColumn, orderColumn, measureOperation) {
-    hasOrder = !("" === orderColumn || undefined === orderColumn);
-
     mixpanel.track("generate_chart", {
-        'order': hasOrder,
+        'order': orderColumn,
         'measureOperation': measureOperation
     });
 
     url = '/generator/barchart'
         + '?categoryColumn=' + categoryColumn
         + '&measureColumn=' + measureColumn
-        + '&measureOperation=' + measureOperation;
-
-    if (hasOrder) {
-        url += '&orderColumn=' + orderColumn;
-    }
+        + '&measureOperation=' + measureOperation
+        + '&orderColumn=' + orderColumn;
 
     d3.text(url, function(generatedCode) {
         window.editorContent = generatedCode;
