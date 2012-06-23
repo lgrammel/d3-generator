@@ -99,6 +99,13 @@
 			<version>${jetty.version}</version>
 		</dependency>
 
+		<!-- Web Server: Automatic compression -->
+		<dependency>
+			<groupId>com.google.javascript</groupId>
+			<artifactId>closure-compiler</artifactId>
+			<version>r1918</version>
+		</dependency>
+
 		<!-- REST Services: JAX-RS, JSON Generator -->
 		<dependency>
 			<groupId>com.sun.jersey</groupId>
@@ -127,7 +134,7 @@
 			<artifactId>commons-io</artifactId>
 			<version>1.3.2</version>
 		</dependency>
-		
+
 	</dependencies>
 
 	<build>
