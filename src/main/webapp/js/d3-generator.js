@@ -10,6 +10,7 @@ var createErrorHandlingWrapper = function(context, delegate) {
 
 mixpanel.track = createErrorHandlingWrapper(mixpanel, mixpanel.track);
 mixpanel.track_funnel = createErrorHandlingWrapper(mixpanel, mixpanel.track_funnel);
+mixpanel.track_links = createErrorHandlingWrapper(mixpanel, mixpanel.track_links);
 mixpanel.register = createErrorHandlingWrapper(mixpanel, mixpanel.register);
 mixpanel.register_once = createErrorHandlingWrapper(mixpanel, mixpanel.register_once);
 mixpanel.register_funnel = createErrorHandlingWrapper(mixpanel, mixpanel.register_funnel);
@@ -47,6 +48,19 @@ var csvChangeTracker = createThrottledTracker(60 * 1000, function() {
 var sourceCodeTracker = createThrottledTracker(60 * 1000, function() {
     mixpanel.track("source_change");
 }, true);
+
+mixpanel.track_links("#introduction a", "external link", {
+    'screen_region': 'introduction'
+});
+mixpanel.track_links("#csv a", "external link", {
+    'screen_region': 'csv'
+})
+mixpanel.track_links("#source a", "external link", {
+    'screen_region': 'source'
+});
+mixpanel.track_links("#footer a", "external link", {
+    'screen_region': 'footer'
+});
 
 mixpanel.track("pageload", {
     'URL': window.location.href,

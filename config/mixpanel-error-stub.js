@@ -3,6 +3,7 @@ var error_fn = function() {
 };
 var mixpanel = {
     track: error_fn,
+    track_links: error_fn,
     track_funnel: error_fn,
     register: error_fn,
     register_once: error_fn,
