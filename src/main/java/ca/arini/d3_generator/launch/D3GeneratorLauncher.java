@@ -65,6 +65,7 @@ public class D3GeneratorLauncher {
         // http://stackoverflow.com/questions/184312/how-to-make-jetty-dynamically-load-static-pages
         ServletHolder holder = new ServletHolder(new DefaultServlet());
         holder.setInitParameter("useFileMappedBuffer", "false");
+        holder.setInitParameter("dirAllowed", "false");
         holder.setInitOrder(0);
         contextHandler.getServletHandler().addServletWithMapping(holder, "/");
 
