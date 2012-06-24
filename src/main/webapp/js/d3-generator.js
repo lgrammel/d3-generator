@@ -95,7 +95,12 @@ function callCodeGenerator(categoryColumn, measureColumn, orderColumn, measureOp
         + '&measureOperation=' + measureOperation
         + '&orderColumn=' + orderColumn;
 
+    var serviceCallTime = new Date().getTime();
     d3.text(url, function(generatedCode) {
+        mixpanel.track("generate_chart_response", {
+            'response_time': new Date().getTime() - serviceCallTime
+        });
+
         sourceCodeTracker.setEnabled(false);
         window.editorContent = generatedCode;
         $('#chart').empty();
