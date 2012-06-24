@@ -43,7 +43,7 @@
     <p>
         <a href="http://d3js.org/">D3.js</a> is an awesome JavaScript library that allows you to create
         <a href="https://github.com/mbostock/d3/wiki/Gallery">custom data visualizations</a>.
-        This code generator helps you getting off the ground quickly by automatically producing source code templates
+        This code generator helps you get off the ground quickly by automatically producing source code templates
         for various bar chart configurations.
         It uses the <a href="http://d3js.org/">D3</a> and <a href="http://underscorejs.org/">Underscore</a> JavaScript
         libraries.
