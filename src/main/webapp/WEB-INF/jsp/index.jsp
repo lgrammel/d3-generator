@@ -55,12 +55,12 @@
     <div style="position:relative; top: -40px;"><a name="settings">&nbsp</a></div>
     <div class="row-fluid">
         <div class="span6" id="csv">
-            <h2>CSV Editor</h2>
+            <h2>1. CSV Editor</h2>
             <p>Paste your CSV data here. <a href="https://github.com/mbostock/d3/wiki/CSV">Learn more about d3 CSV parsing...</a></p>
             <div id="csvEditor"></div>
         </div>
         <div class="span6">
-            <h2>Bar Chart Settings</h2>
+            <h2>2. Bar Chart Settings</h2>
             <p>Configure your chart and press <code>Generate Chart</code> to load the source code.</p>
             <div class="alert alert-error" id="warning-no-columns" style="display: none;">
                 <strong>No data available!</strong> Enter some CSV data first.
@@ -138,7 +138,7 @@
             <div id="jsonEditor">[]</div>
         </div>
         <div class="span6" id="source">
-            <h2>Source Code Editor</h2>
+            <h2>3. Source Code Editor</h2>
             <p>
                 The chart is rendered in the DOM element with the id <code>chart</code>. It automatically updates when
                 you modify the source code. You can use
@@ -152,7 +152,7 @@
     <div style="position:relative; top: -40px;"><a name="chart">&nbsp</a></div>
     <div class="row-fluid">
         <div class="span12">
-            <h2>Chart</h2>
+            <h2>4. Chart</h2>
             <div id="chart" style="display:none;">
             </div>
             <div class="alert alert-error" id="renderError" style="display:none;">
