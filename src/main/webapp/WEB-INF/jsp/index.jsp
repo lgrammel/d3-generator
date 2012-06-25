@@ -49,14 +49,13 @@
         libraries.
         The generated source code is loosely based on
         <a href="http://mbostock.github.com/d3/tutorial/bar-1.html">Mike Bostock's D3 bar chart tutorial</a>.
-        If you have any feedback or suggestions, <a href="mailto:lars.grammel@gmail.com">let me know</a>!
     </p>
     </div>
 
     <div style="position:relative; top: -40px;"><a name="settings">&nbsp</a></div>
     <div class="row-fluid">
         <div class="span6" id="csv">
-            <h2>CSV</h2>
+            <h2>CSV Editor</h2>
             <p>Paste your CSV data here. <a href="https://github.com/mbostock/d3/wiki/CSV">Learn more about d3 CSV parsing...</a></p>
             <div id="csvEditor"></div>
         </div>
@@ -139,7 +138,7 @@
             <div id="jsonEditor">[]</div>
         </div>
         <div class="span6" id="source">
-            <h2>Source Code</h2>
+            <h2>Source Code Editor</h2>
             <p>
                 The chart is rendered in the DOM element with the id <code>chart</code>. It automatically updates when
                 you modify the source code. You can use
