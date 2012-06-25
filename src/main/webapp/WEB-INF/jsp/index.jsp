@@ -37,7 +37,7 @@
 </div>
 
 <div class="container-fluid">
-    <div class="hero-unit" id="introduction">
+    <div id="introduction">
     <h2>Get started with developing custom D3 bar charts in seconds!</h2>
     <p>
         <a href="http://d3js.org/">D3.js</a> is an awesome JavaScript library that allows you to create
@@ -54,7 +54,7 @@
     <div style="position:relative; top: -40px;"><a name="configuration">&nbsp</a></div>
     <div class="row-fluid">
         <div class="span6" id="csv">
-            <h2>1. CSV Editor</h2>
+            <h2>1. Data Editor</h2>
             <p>Paste your CSV data here. <a href="https://github.com/mbostock/d3/wiki/CSV">Learn more about d3 CSV parsing...</a></p>
             <div id="csvEditor"></div>
         </div>
