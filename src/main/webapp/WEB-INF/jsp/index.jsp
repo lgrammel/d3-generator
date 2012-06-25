@@ -29,9 +29,8 @@
             <a class="brand" href="#">d3.js bar chart generator</a>
             <ul class="nav">
                 <li><a href="#">Top</a></li>
-                <li><a href="#settings">Settings</a></li>
-                <li><a href="#source">Source Code</a></li>
-                <li><a href="#chart">Chart</a></li>
+                <li><a href="#configuration">CSV / Configuration</a></li>
+                <li><a href="#source">Source Code / Chart</a></li>
             </ul>
         </div>
     </div>
@@ -52,7 +51,7 @@
     </p>
     </div>
 
-    <div style="position:relative; top: -40px;"><a name="settings">&nbsp</a></div>
+    <div style="position:relative; top: -40px;"><a name="configuration">&nbsp</a></div>
     <div class="row-fluid">
         <div class="span6" id="csv">
             <h2>1. CSV Editor</h2>
@@ -60,7 +59,7 @@
             <div id="csvEditor"></div>
         </div>
         <div class="span6">
-            <h2>2. Bar Chart Settings</h2>
+            <h2>2. Bar Chart Configuration</h2>
             <p>Configure your chart and press <code>Generate Chart</code> to load the source code.</p>
             <div class="alert alert-error" id="warning-no-columns" style="display: none;">
                 <strong>No data available!</strong> Enter some CSV data first.
@@ -129,14 +128,6 @@
     </div>
     <div style="position:relative; top: -40px;"><a name="source">&nbsp</a></div>
     <div class="row-fluid">
-        <div class="span6">
-            <h2>Parsed Data</h2>
-            <p>
-                The CSV data after parsing displayed as read-only JSON. Available in the <code>data</code> variable in
-                the source code. You can use <code>d3.csv</code> to load CSV files in your own page.
-            </p>
-            <div id="jsonEditor">[]</div>
-        </div>
         <div class="span6" id="source">
             <h2>3. Source Code Editor</h2>
             <p>
@@ -148,10 +139,7 @@
             </p>
             <div id="sourceEditor"></div>
         </div>
-     </div>
-    <div style="position:relative; top: -40px;"><a name="chart">&nbsp</a></div>
-    <div class="row-fluid">
-        <div class="span12">
+        <div class="span6">
             <h2>4. Chart</h2>
             <div id="chart" style="display:none;">
             </div>
@@ -174,7 +162,6 @@
 <script src="js/browserdetect/browserdetect.js"></script>
 <script src="js/ace/ace.js"></script>
 <script src="js/ace/mode-javascript.js"></script>
-<script src="js/ace/mode-json.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="js/d3-generator.js"></script>
 </body></html>

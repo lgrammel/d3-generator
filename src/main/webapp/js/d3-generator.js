@@ -131,7 +131,7 @@ function callCodeGenerator(categoryColumn, measureColumn, orderColumn, measureOp
 
 function parseCsv(csv) {
     window.data = d3.csv.parse(csv);
-    window.jsonEditor.getSession().setValue(JSON.stringify(window.data, undefined, 2));
+    redrawChart();
     updateChartGeneratorState();
 }
 
@@ -242,13 +242,6 @@ function redrawChart() {
     finally {}
 }
 
-var JsonMode = require("ace/mode/json").Mode;
-window.jsonEditor = ace.edit("jsonEditor");
-window.jsonEditor.getSession().setMode(new JsonMode());
-window.jsonEditor.setReadOnly(true);
-window.jsonEditor.setShowPrintMargin(false);
-window.jsonEditor.getSession().on('change', redrawChart);
-
 var JavascriptMode = require("ace/mode/javascript").Mode;
 window.sourceEditor = ace.edit("sourceEditor");
 window.sourceEditor.getSession().setMode(new JavascriptMode());
@@ -261,7 +254,6 @@ window.csvEditor.getSession().on('change', onCsvChange);
 
 window.onResize = function() {
     window.csvEditor.resize();
-    window.jsonEditor.resize();
     window.sourceEditor.resize();
 };
 
