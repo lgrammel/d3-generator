@@ -49,6 +49,11 @@ var sourceCodeTracker = createThrottledTracker(60 * 1000, function() {
     mixpanel.track("source_change");
 }, true);
 
+mixpanel.register({
+    'Browser + Version' : BrowserDetect.browser + " " + BrowserDetect.version,
+    'Screen Resolution' : screen.width + " x " + screen.height
+});
+
 mixpanel.track_links("#introduction a", "external link", {
     'screen_region': 'introduction'
 });
@@ -63,9 +68,7 @@ mixpanel.track_links("#footer a", "external link", {
 });
 
 mixpanel.track("pageload", {
-    'URL': window.location.href,
-    'Browser + Version' : BrowserDetect.browser + " " + BrowserDetect.version,
-    'Screen Resolution' : screen.width + " x " + screen.height
+    'URL': window.location.href
 });
 
 window.data = [];
