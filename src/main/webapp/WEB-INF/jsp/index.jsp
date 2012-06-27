@@ -109,7 +109,7 @@
                         </div>
                     </div>
                     <div class="form-actions" id="generateButtonSection">
-                        <a onclick="generateChartButtonClicked()" class="btn btn-primary" id="buttonGenerateCode">
+                        <a onclick="generateChartButtonClicked()" class="btn btn-primary btn-large" id="buttonGenerateCode">
                             <i class="icon-picture icon-white"></i>
                             Generate Chart
                         </a>
