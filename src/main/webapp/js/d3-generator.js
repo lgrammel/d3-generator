@@ -77,6 +77,10 @@ window.editorContent = "";
 updateChartGeneratorState();
 
 function generateChartButtonClicked() {
+    if ($('#buttonGenerateCode').hasClass('disabled')) {
+        return;
+    }
+
     $('#generateButtonSection').hide();
     if (window.editorContent != window.sourceEditor.getSession().getValue()) {
         $('#sourceCodeOverrideAlert').show();
