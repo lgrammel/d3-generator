@@ -140,7 +140,7 @@
             <div id="sourceEditor"></div>
         </div>
         <div class="span6">
-            <h2>4. Chart</h2>
+            <h2>4. Preview</h2>
             <div id="chart" style="display:none;">
             </div>
             <div class="alert alert-error" id="renderError" style="display:none;">
