@@ -220,7 +220,19 @@ function updateChartGeneratorState() {
 
 function redrawChart() {
     var code = window.sourceEditor.getSession().getValue();
+    var csv = window.csvEditor.getSession().getValue();
 
+    // update code export
+    try {
+        $('#exportHtml').text(_.template(window.html_export_template, {
+            'code': code,
+            'csv': csv
+        }));
+    } catch (e) {
+        errorHandler.onError(e);
+    }
+
+    // update chart
     if (code === "") {
         return;
     }
@@ -256,6 +268,10 @@ window.onResize = function() {
     window.csvEditor.resize();
     window.sourceEditor.resize();
 };
+
+d3.text('templates/html_export.template', function(template) {
+    window.html_export_template = template;
+});
 
 d3.text('data/countries.csv', function(csv) {
     window.csvEditor.getSession().setValue(csv);
