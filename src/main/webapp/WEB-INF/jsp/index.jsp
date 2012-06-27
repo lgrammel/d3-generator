@@ -130,8 +130,8 @@
     <div class="row-fluid">
         <div class="span6" id="source">
             <h2>3. Source Code Editor</h2>
+            <a class="btn btn-primary" data-toggle="modal" href="#htmlExport" style="float:right; margin-left: 20px;"><i class="icon-file icon-white"></i>Export HTML...</a>
             <p>
-                <a class="btn btn-primary" data-toggle="modal" href="#htmlExport" style="float:right;"><i class="icon-file icon-white"></i>Show as HTML page...</a>
                 The chart is rendered in the DOM element with the id <code>chart</code>. It automatically updates when
                 you modify the source code. You can use
                 <code>d3</code> (<a href="http://d3js.org/">d3.js</a>),
@@ -157,20 +157,21 @@
         <p>D3-Generator.com &copy; <a href="http://www.larsgrammel.de">Lars Grammel</a> 2012</p>
     </footer>
 </div>
-<div class="modal hide fade" style="width: 80%; margin-left: -40%" id="htmlExport">
+<div class="modal hide fade" style="width: 80%; margin-left: -40%;" id="htmlExport">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h3>HTML Export</h3>
     </div>
     <div class="modal-body">
-        <p>One fine body…One fine body…One fine body…One fine body…One fine body…One fine body…
+        <a class="btn btn-primary">Copy to clipboard</a>
+        <a class="btn btn-primary">Open HTML in separate window</a>
+        <p>
             <pre id="exportHtml">
             </pre>
         </p>
     </div>
     <div class="modal-footer">
         <a href="#" class="btn" data-dismiss="modal">Close</a>
-        <a href="#" class="btn btn-primary">Save changes</a>
     </div>
 </div>
 
