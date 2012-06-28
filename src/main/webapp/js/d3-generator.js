@@ -74,6 +74,8 @@ mixpanel.track("pageload", {
 ZeroClipboard.setMoviePath('/js/zeroclipboard/ZeroClipboard.swf');
 var clip = new ZeroClipboard.Client();
 clip.addEventListener('onComplete', function(client, text) {
+    mixpanel.track("export_html_copied_to_clipboard");
+
     var btn = $('#clipButton');
     btn.removeClass("btn-primary");
     btn.addClass("btn-success");
@@ -103,11 +105,17 @@ function generateChartButtonClicked() {
     }
 }
 
-function exportButtonClicked() {
+function closeHtmlExportDialog() {
+    mixpanel.track("export_html_close_dialog");
+    $('#htmlExportDialog').modal('toggle');
+}
+
+function openHtmlExportDialog() {
     if ($('#htmlExportButton').hasClass('disabled')) {
         return;
     }
 
+    mixpanel.track("export_html_open_dialog");
     $('#htmlExportDialog').modal('toggle');
     clip.glue('clipButton', 'clipContainer');
 }
@@ -157,6 +165,7 @@ function callCodeGenerator(categoryColumn, measureColumn, orderColumn, measureOp
 }
 
 function openHtmlExportPage() {
+    mixpanel.track("export_html_open_page");
     window.open('','_blank').document.writeln(window.htmlCode);
 }
 

@@ -130,7 +130,7 @@
     <div class="row-fluid">
         <div class="span6" id="source">
             <h2>3. Source Code Editor</h2>
-            <a  class="btn btn-primary disabled" id="htmlExportButton" onclick="exportButtonClicked()"
+            <a  class="btn btn-primary disabled" id="htmlExportButton" onclick="openHtmlExportDialog()"
                 style="float:right; margin-left: 20px;"><i class="icon-file icon-white"></i>Export HTML...</a>
             <p>
                 The chart is rendered in the DOM element with the id <code>chart</code>. It automatically updates when
@@ -160,7 +160,7 @@
 </div>
 <div class="modal hide" style="width: 80%; margin-left: -40%;" id="htmlExportDialog">
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal">×</button>
+        <button type="button" class="close" onclick="closeHtmlExportDialog()">×</button>
         <h3>HTML Export</h3>
     </div>
     <div class="modal-body">
@@ -174,7 +174,7 @@
         </p>
     </div>
     <div class="modal-footer">
-        <a href="#" class="btn" data-dismiss="modal">Close</a>
+        <a href="#" class="btn" onclick="closeHtmlExportDialog()">Close</a>
     </div>
 </div>
 

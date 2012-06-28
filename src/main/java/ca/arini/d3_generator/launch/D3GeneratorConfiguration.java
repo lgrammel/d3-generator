@@ -84,7 +84,7 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
         D3GeneratorConfiguration configuration = new D3GeneratorConfiguration();
 
         configuration.port = DEVELOPMENT_PORT;
-        configuration.mixpanelScript = loadScript(MIXPANEL_NULL);
+        configuration.mixpanelScript = loadScript(MIXPANEL_LOGGING);
         configuration.errorHandlerScript = loadScript(ERRORHANDLER_LOGGING);
         configuration.renderer = new RythmDevelopmentRenderer();
 
