@@ -186,6 +186,5 @@
 <script src="js/ace/mode-javascript.js"></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 <script src="js/bootstrap/bootstrap-modal.js"></script>
-<script src="js/bootstrap/bootstrap-transition.js"></script>
 <script src="js/d3-generator.js"></script>
 </body></html>
