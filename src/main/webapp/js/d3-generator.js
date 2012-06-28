@@ -141,6 +141,10 @@ function callCodeGenerator(categoryColumn, measureColumn, orderColumn, measureOp
     });
 }
 
+function openHtmlExportPage() {
+    window.open('','_blank').document.writeln(window.htmlCode);
+}
+
 function parseCsv(csv) {
     window.data = d3.csv.parse(csv);
     redrawChart();
@@ -238,10 +242,12 @@ function redrawChart() {
 
     // update code export
     try {
-        $('#exportHtml').text(_.template(window.html_export_template, {
+        window.htmlCode = _.template(window.html_export_template, {
             'code': code,
             'csv': csv
-        }));
+        });
+
+        $('#exportHtml').text(window.htmlCode);
     } catch (e) {
         errorHandler.onError(e);
     }

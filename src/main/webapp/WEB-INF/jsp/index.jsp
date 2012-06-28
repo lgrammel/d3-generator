@@ -165,7 +165,7 @@
     </div>
     <div class="modal-body">
         <a class="btn btn-primary">Copy to clipboard</a>
-        <a class="btn btn-primary">Open HTML in separate window</a>
+        <a class="btn" onclick="openHtmlExportPage()">Open HTML in separate window</a>
         <p>
             <pre id="exportHtml">
             </pre>
