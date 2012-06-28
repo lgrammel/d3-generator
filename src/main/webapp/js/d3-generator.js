@@ -73,8 +73,16 @@ mixpanel.track("pageload", {
 
 ZeroClipboard.setMoviePath('/js/zeroclipboard/ZeroClipboard.swf');
 var clip = new ZeroClipboard.Client();
-clip.addEventListener( 'onComplete', function(client, text) {
-    // TODO change button for 5 seconds
+clip.addEventListener('onComplete', function(client, text) {
+    var btn = $('#clipButton');
+    btn.removeClass("btn-primary");
+    btn.addClass("btn-success");
+    btn.html("Copied successfully!");
+    setInterval(function() {
+        btn.removeClass("btn-success");
+        btn.addClass("btn-primary");
+        btn.html("Copy to clipboard");
+    }, 3 * 1000);
 });
 
 window.data = [];
