@@ -78,7 +78,7 @@ clip.addEventListener('onComplete', function(client, text) {
     btn.removeClass("btn-primary");
     btn.addClass("btn-success");
     btn.html("Copied successfully!");
-    setInterval(function() {
+    setTimeout(function() {
         btn.removeClass("btn-success");
         btn.addClass("btn-primary");
         btn.html("Copy to clipboard");
