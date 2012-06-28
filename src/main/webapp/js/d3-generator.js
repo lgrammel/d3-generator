@@ -71,6 +71,12 @@ mixpanel.track("pageload", {
     'URL': window.location.href
 });
 
+ZeroClipboard.setMoviePath('/js/zeroclipboard/ZeroClipboard.swf');
+var clip = new ZeroClipboard.Client();
+clip.addEventListener( 'onComplete', function(client, text) {
+    // TODO change button for 5 seconds
+});
+
 window.data = [];
 window.editorContent = "";
 
@@ -95,6 +101,7 @@ function exportButtonClicked() {
     }
 
     $('#htmlExportDialog').modal('toggle');
+    clip.glue('clipButton', 'clipContainer');
 }
 
 function abortCodeGeneration() {
@@ -247,6 +254,7 @@ function redrawChart() {
             'csv': csv
         });
 
+        clip.setText(window.htmlCode);
         $('#exportHtml').text(window.htmlCode);
     } catch (e) {
         errorHandler.onError(e);

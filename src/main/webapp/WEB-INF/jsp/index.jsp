@@ -158,14 +158,16 @@
         <p>D3-Generator.com &copy; <a href="http://www.larsgrammel.de">Lars Grammel</a> 2012</p>
     </footer>
 </div>
-<div class="modal hide fade" style="width: 80%; margin-left: -40%;" id="htmlExportDialog">
+<div class="modal hide" style="width: 80%; margin-left: -40%;" id="htmlExportDialog">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h3>HTML Export</h3>
     </div>
     <div class="modal-body">
-        <a class="btn btn-primary">Copy to clipboard</a>
-        <a class="btn" onclick="openHtmlExportPage()">Open HTML in separate window</a>
+        <div id="clipContainer" style="position:relative">
+            <a class="btn btn-primary" id="clipButton">Copy to clipboard</a>
+            <a class="btn" onclick="openHtmlExportPage()">Open HTML in separate window</a>
+        </div>
         <p>
             <pre id="exportHtml">
             </pre>
@@ -176,6 +178,7 @@
     </div>
 </div>
 
+<script src="js/zeroclipboard/ZeroClipboard.js"></script>
 <script src="js/underscore/underscore.js"></script>
 <script src="js/d3/d3.v2.js"></script>
 <script src="js/browserdetect/browserdetect.js"></script>
