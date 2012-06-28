@@ -130,7 +130,8 @@
     <div class="row-fluid">
         <div class="span6" id="source">
             <h2>3. Source Code Editor</h2>
-            <a class="btn btn-primary" data-toggle="modal" href="#htmlExport" style="float:right; margin-left: 20px;"><i class="icon-file icon-white"></i>Export HTML...</a>
+            <a  class="btn btn-primary disabled" id="htmlExportButton" onclick="exportButtonClicked()"
+                style="float:right; margin-left: 20px;"><i class="icon-file icon-white"></i>Export HTML...</a>
             <p>
                 The chart is rendered in the DOM element with the id <code>chart</code>. It automatically updates when
                 you modify the source code. You can use
@@ -157,7 +158,7 @@
         <p>D3-Generator.com &copy; <a href="http://www.larsgrammel.de">Lars Grammel</a> 2012</p>
     </footer>
 </div>
-<div class="modal hide fade" style="width: 80%; margin-left: -40%;" id="htmlExport">
+<div class="modal hide fade" style="width: 80%; margin-left: -40%;" id="htmlExportDialog">
     <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal">×</button>
         <h3>HTML Export</h3>

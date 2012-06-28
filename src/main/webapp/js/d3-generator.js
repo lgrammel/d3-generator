@@ -89,6 +89,14 @@ function generateChartButtonClicked() {
     }
 }
 
+function exportButtonClicked() {
+    if ($('#htmlExportButton').hasClass('disabled')) {
+        return;
+    }
+
+    $('#htmlExportDialog').modal('toggle');
+}
+
 function abortCodeGeneration() {
     $('#sourceCodeOverrideAlert').hide();
     $('#generateButtonSection').show();
@@ -143,11 +151,13 @@ function onCsvChange() {
     csvChangeTracker.track();
     parseCsv(window.csvEditor.getSession().getValue());
     window.csvEditor.resize();
+    updateExportButton();
 };
 
 function onSourceChange() {
     sourceCodeTracker.track();
     redrawChart();
+    updateExportButton();
 }
 
 function isNumber(n) {
@@ -268,6 +278,18 @@ window.csvEditor = ace.edit("csvEditor");
 window.csvEditor.setShowPrintMargin(false);
 window.csvEditor.getSession().on('change', onCsvChange);
 
+function updateExportButton() {
+    var templateLoaded = window.html_export_template !== undefined;
+    var dataAvailable = window.data !== undefined && window.data.length > 0;
+    var sourceAvailable = window.sourceEditor.getSession().getValue() !== "";
+
+    if (templateLoaded && dataAvailable && sourceAvailable) {
+        $('#htmlExportButton').removeClass('disabled');
+    } else {
+        $('#htmlExportButton').addClass('disabled');
+    }
+}
+
 window.onResize = function() {
     window.csvEditor.resize();
     window.sourceEditor.resize();
@@ -275,6 +297,7 @@ window.onResize = function() {
 
 d3.text('templates/html_export.template', function(template) {
     window.html_export_template = template;
+    updateExportButton();
 });
 
 d3.text('data/countries.csv', function(csv) {
