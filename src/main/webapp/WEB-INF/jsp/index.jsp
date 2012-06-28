@@ -128,11 +128,11 @@
     </div>
     <div style="position:relative; top: -40px;"><a name="source">&nbsp</a></div>
     <div class="row-fluid">
-        <div class="span6" id="source">
+        <div class="span6">
             <h2>3. Source Code Editor</h2>
             <a  class="btn btn-primary disabled" id="htmlExportButton" onclick="openHtmlExportDialog()"
                 style="float:right; margin-left: 20px;"><i class="icon-file icon-white"></i>Export HTML...</a>
-            <p>
+            <p id="source">
                 The chart is rendered in the DOM element with the id <code>chart</code>. It automatically updates when
                 you modify the source code. You can use
                 <code>d3</code> (<a href="http://d3js.org/">d3.js</a>),
