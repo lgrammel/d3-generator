@@ -39,14 +39,15 @@ public class JavascriptMinimizedFileSelectorFilter extends AbstractFilter {
 
         if (request instanceof HttpServletRequest) {
             HttpServletRequest httpRequest = (HttpServletRequest) request;
-            String lowerCaseRequestUri = httpRequest.getRequestURI()
-                    .toLowerCase();
+            String requestUri = httpRequest.getRequestURI();
+            String lowerCaseRequestUri = requestUri.toLowerCase();
 
             if (!lowerCaseRequestUri.endsWith(".min.js")
                     && lowerCaseRequestUri.endsWith(".js")) {
 
-                String minifiedURI = lowerCaseRequestUri.subSequence(0,
-                        lowerCaseRequestUri.length() - 3) + ".min.js";
+                String minifiedURI = requestUri.subSequence(0,
+                        requestUri.length() - 3)
+                        + ".min.js";
                 File minifiedFile = new File(getFilterConfig()
                         .getServletContext().getRealPath(minifiedURI));
 
