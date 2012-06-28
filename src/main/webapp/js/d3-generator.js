@@ -262,41 +262,41 @@ function updateChartGeneratorState() {
 
 function redrawChart() {
     var code = window.sourceEditor.getSession().getValue();
-    var csv = window.csvEditor.getSession().getValue();
 
     // update code export
-    try {
-        window.htmlCode = _.template(window.html_export_template, {
-            'code': code,
-            'csv': csv
-        });
+    if (canExport()) {
+        try {
+            var csv = window.csvEditor.getSession().getValue();
 
-        clip.setText(window.htmlCode);
-        $('#exportHtml').text(window.htmlCode);
-    } catch (e) {
-        errorHandler.onError(e);
+            window.htmlCode = _.template(window.html_export_template, {
+                'code': code,
+                'csv': csv
+            });
+
+            clip.setText(window.htmlCode);
+            $('#exportHtml').text(window.htmlCode);
+        } catch (e) {
+            errorHandler.onError(e, "redrawChart() - error updating html page");
+        }
     }
 
     // update chart
-    if (code === "") {
-        return;
-    }
+    if (code !== "") {
+        $('#chart').empty();
+        $('#chart').show();
+        $('#emptyChart').hide();
+        $('#noChartYet').hide();
+        $('#renderError').hide();
 
-    $('#chart').empty();
-    $('#chart').show();
-    $('#emptyChart').hide();
-    $('#noChartYet').hide();
-    $('#renderError').hide();
+        try {
+            eval('(function() {\n' + code + '\n}());');
+        } catch (error) {
+            $('#chart').hide();
+            $('#renderError').show();
 
-    try {
-        eval('(function() {\n' + code + '\n}());');
-    } catch (error) {
-        $('#chart').hide();
-        $('#renderError').show();
-        console.log("error drawing chart");
-        console.log(error);
+            errorHandler.onError(error, "redrawChart() - error drawing chart");
+        }
     }
-    finally {}
 }
 
 var JavascriptMode = require("ace/mode/javascript").Mode;
@@ -309,12 +309,16 @@ window.csvEditor = ace.edit("csvEditor");
 window.csvEditor.setShowPrintMargin(false);
 window.csvEditor.getSession().on('change', onCsvChange);
 
-function updateExportButton() {
+function canExport() {
     var templateLoaded = window.html_export_template !== undefined;
     var dataAvailable = window.data !== undefined && window.data.length > 0;
     var sourceAvailable = window.sourceEditor.getSession().getValue() !== "";
 
-    if (templateLoaded && dataAvailable && sourceAvailable) {
+    return templateLoaded && dataAvailable && sourceAvailable;
+}
+
+function updateExportButton() {
+    if (canExport()) {
         $('#htmlExportButton').removeClass('disabled');
     } else {
         $('#htmlExportButton').addClass('disabled');
