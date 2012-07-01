@@ -32,7 +32,7 @@ var aggregatedData = d3.nest()
   .key(function(d) { return d['@categoryColumn']; })
   .rollup(function(d) {
     return {
-      'value': d3.sum(d, function(d2) { return d2['Population (mill)']; })
+      'value': d3.sum(d, function(e) { return e['Population (mill)']; })
     };
   })
   .entries(data);

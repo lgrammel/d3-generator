@@ -40,12 +40,10 @@
     <div id="introduction">
     <h2>Get started with developing custom D3 bar charts in seconds!</h2>
     <p>
-        <a href="http://d3js.org/">D3.js</a> is an awesome JavaScript library that allows you to create
+        <a href="http://d3js.org/">D3.js</a> is a great JavaScript library that allows you to create
         <a href="https://github.com/mbostock/d3/wiki/Gallery">custom data visualizations</a>.
         This code generator helps you get off the ground quickly by automatically producing source code templates
         for various bar chart configurations.
-        It uses the <a href="http://d3js.org/">D3</a> and <a href="http://underscorejs.org/">Underscore</a> JavaScript
-        libraries.
         The generated source code is loosely based on
         <a href="http://mbostock.github.com/d3/tutorial/bar-1.html">Mike Bostock's D3 bar chart tutorial</a>.
     </p>
