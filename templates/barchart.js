@@ -15,9 +15,11 @@ var maxBarWidth = 420; // width of the bar with the max value
   boolean isOrdered = BarChartOrder.ORIGINAL != order;
  
   String dataVar = "data";
+  String preSortVar = "data";
   
   if (isAggregated) {
   	dataVar = "aggregatedData";
+  	preSortVar = "aggregatedData";
   }
   
   if (isOrdered) {
@@ -26,28 +28,28 @@ var maxBarWidth = 420; // width of the bar with the max value
 }@
 @if (isAggregated) {
 // data aggregation
-var aggregatedData = _.map(_.groupBy(data, function(d) { return d['@categoryColumn']; }), function(group) {
-  return {
-    'label': group[0]['@categoryColumn'],
-    'value': d3.sum(group, function(d) { return d['@measureColumn']; })
-  };
-});
+var aggregatedData = d3.nest()
+  .key(function(d) { return d['@categoryColumn']; })
+  .rollup(function(d) {
+    return {
+      'value': d3.sum(d, function(d2) { return d2['Population (mill)']; })
+    };
+  })
+  .entries(data);
 } 
 // accessor functions @if (isAggregated) {
-var barLabel = function(d) { return d.label; };
-var barValue = function(d) { return d.value; };
+var barLabel = function(d) { return d.key; };
+var barValue = function(d) { return d.values.value; };
 } else {
 var barLabel = function(d) { return d['@categoryColumn']; };
 var barValue = function(d) { return parseFloat(d['@measureColumn']); };
-} @if (BarChartOrder.VALUE_ASCENDING == order) {
+} @if (isOrdered)
 // sorting
-var sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, barValue);
-} else if (BarChartOrder.VALUE_DESCENDING == order) {
-// sorting
-var sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, function(d) { return -1 * barValue(d); });
-} else if (BarChartOrder.LABEL_ALPHABETICAL == order) {
-// sorting
-var sortedData = _.sortBy(@if (isAggregated) {aggregatedData} else {data}, barLabel);
+var sortedData = @(preSortVar).sort(function(a, b) {
+@if (BarChartOrder.VALUE_ASCENDING == order) {  return d3.ascending(barValue(a), barValue(b)); 
+} else if (BarChartOrder.VALUE_DESCENDING == order) { return d3.descending(barValue(a), barValue(b));
+} else if (BarChartOrder.LABEL_ALPHABETICAL == order) { return d3.ascending(barLabel(a), barLabel(b));
+}}); 
 }
 // scales
 var yScale = d3.scale.ordinal().domain(d3.range(0, @(dataVar).length)).rangeBands([0, @(dataVar).length * barHeight]);

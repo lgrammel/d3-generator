@@ -134,10 +134,7 @@
                 style="float:right; margin-left: 20px;"><i class="icon-file icon-white"></i>Export HTML...</a>
             <p id="source">
                 The chart is rendered in the DOM element with the id <code>chart</code>. It automatically updates when
-                you modify the source code. You can use
-                <code>d3</code> (<a href="http://d3js.org/">d3.js</a>),
-                <code>_</code> (<a href="http://underscorejs.org/">underscore.js</a>) and
-                <code>$</code> (<a href="http://jquery.com/">JQuery</a>).
+                you modify the source code.
             </p>
             <div id="sourceEditor"></div>
         </div>
