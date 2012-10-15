@@ -33,7 +33,6 @@ import ca.arini.d3_generator.renderer.RythmDevelopmentRenderer;
 import ca.arini.d3_generator.renderer.RythmProductionRenderer;
 import ca.arini.d3_generator.service.BarChartGeneratorService;
 import ca.arini.d3_generator.servlet.IndexServlet;
-import ca.arini.d3_generator.servlet.filter.HtmlWhitespaceCompressionFilter;
 import ca.arini.d3_generator.servlet.filter.JavascriptCompressionFilter;
 import ca.arini.d3_generator.servlet.filter.JavascriptMinimizedFileSelectorFilter;
 
@@ -143,7 +142,6 @@ public final class D3GeneratorConfiguration extends JerseyServletModule {
                 errorHandlerScript);
 
         filter("*").through(new GzipFilter());
-        filter("/").through(HtmlWhitespaceCompressionFilter.class);
         filter("*.js").through(JavascriptMinimizedFileSelectorFilter.class);
         filter("/js/d3-generator.js")
                 .through(JavascriptCompressionFilter.class);
