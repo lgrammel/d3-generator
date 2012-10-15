@@ -153,7 +153,7 @@
         <p>D3-Generator.com &copy; <a href="http://www.larsgrammel.de">Lars Grammel</a> 2012</p>
     </footer>
 </div>
-<div class="modal hide" style="width: 80%; margin-left: -40%;" id="htmlExportDialog">
+<div class="modal hide" id="htmlExportDialog">
     <div class="modal-header">
         <button type="button" class="close" onclick="closeHtmlExportDialog()">×</button>
         <h3>HTML Export</h3>
