@@ -34,15 +34,19 @@ public class HtmlWhitespaceCompressionFilter extends AbstractCompressionFilter {
 
         // remove leading whitespace
         compressedOutput = Pattern.compile("^\\s+", Pattern.MULTILINE)
-                .matcher(originalOutput).replaceAll("");
+                .matcher(compressedOutput).replaceAll("");
         // remove trailing whitespace
         compressedOutput = Pattern.compile("\\s+$", Pattern.MULTILINE)
-                .matcher(originalOutput).replaceAll("");
+                .matcher(compressedOutput).replaceAll("");
         // remove line end
-        compressedOutput = originalOutput.replaceAll("\\n", "");
-        compressedOutput = originalOutput.replaceAll("\\r", "");
+        compressedOutput = compressedOutput.replaceAll("\\n", "");
+        compressedOutput = compressedOutput.replaceAll("\\r", "");
         // collapse spaces
-        compressedOutput = originalOutput.replaceAll("\\s+", " ");
+        compressedOutput = compressedOutput.replaceAll("\\s+", " ");
+        // remove leading whitespace after tag start
+        // compressedOutput = compressedOutput.replaceAll("\\>\\s+", ">");
+        // remove trailing whitespace before tag end
+        // compressedOutput = compressedOutput.replaceAll("\\s+\\</", "</");
 
         return compressedOutput;
     }
